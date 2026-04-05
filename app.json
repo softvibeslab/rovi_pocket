@@ -1,0 +1,18 @@
+{
+  "expo": {
+    "name": "Rovi Pocket",
+    "slug": "rovi-pocket",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {}
+  }
+}

@@ -3,6 +3,10 @@
 Estado actual: semilla local dentro del repo principal
 Objetivo: evolucionar a repositorio independiente conectado por submódulo
 
+Repositorio remoto:
+
+- https://github.com/softvibeslab/rovi_pocket.git
+
 ## Qué es este folder
 
 Este directorio existe para arrancar `Rovi Pocket` sin frenar la definición funcional, técnica y de diseño.
