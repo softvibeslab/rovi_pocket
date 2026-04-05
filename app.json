@@ -13,6 +13,11 @@
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
     },
-    "web": {}
+    "web": {},
+    "extra": {
+      "eas": {
+        "projectId": "52d3293b-62c5-400b-8139-daea43f06d22"
+      }
+    }
   }
 }
