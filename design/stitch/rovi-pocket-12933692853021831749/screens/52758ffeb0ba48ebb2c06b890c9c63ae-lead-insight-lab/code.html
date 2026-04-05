@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lead Insight Lab - Rovi Pocket</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-dim": "#0c0e11",
+                    "surface": "#0c0e11",
+                    "primary-fixed": "#3fff8b",
+                    "on-primary-container": "#004f24",
+                    "surface-tint": "#3fff8b",
+                    "surface-container-low": "#111417",
+                    "inverse-primary": "#006e35",
+                    "on-tertiary": "#005360",
+                    "on-primary-fixed": "#004820",
+                    "outline-variant": "#46484b",
+                    "on-error": "#490006",
+                    "on-secondary-fixed": "#1f2882",
+                    "inverse-surface": "#f9f9fd",
+                    "on-background": "#f9f9fd",
+                    "primary": "#3fff8b",
+                    "tertiary": "#7ae6ff",
+                    "on-tertiary-container": "#004955",
+                    "tertiary-container": "#00dcfd",
+                    "primary-container": "#13ea79",
+                    "on-error-container": "#ffa8a3",
+                    "secondary-dim": "#8d96f4",
+                    "outline": "#747579",
+                    "tertiary-dim": "#00cdec",
+                    "on-primary-fixed-variant": "#006832",
+                    "surface-container-lowest": "#000000",
+                    "on-surface-variant": "#aaabaf",
+                    "on-secondary-fixed-variant": "#3e47a0",
+                    "surface-bright": "#292c31",
+                    "secondary-container": "#343d96",
+                    "tertiary-fixed": "#00dcfd",
+                    "on-secondary-container": "#c9cdff",
+                    "on-tertiary-fixed": "#00343d",
+                    "primary-fixed-dim": "#24f07e",
+                    "on-secondary": "#0b1574",
+                    "on-tertiary-fixed-variant": "#005361",
+                    "inverse-on-surface": "#535559",
+                    "tertiary-fixed-dim": "#00cdec",
+                    "surface-variant": "#23262a",
+                    "on-primary": "#005d2c",
+                    "surface-container-highest": "#23262a",
+                    "primary-dim": "#24f07e",
+                    "secondary-fixed-dim": "#babfff",
+                    "surface-container-high": "#1d2024",
+                    "error-container": "#9f0519",
+                    "surface-container": "#171a1d",
+                    "secondary-fixed": "#cbceff",
+                    "secondary": "#929bfa",
+                    "background": "#0c0e11",
+                    "error-dim": "#d7383b",
+                    "error": "#ff716c",
+                    "on-surface": "#f9f9fd"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #0c0e11;
+            color: #f9f9fd;
+            font-family: 'Inter', sans-serif;
+        }
+        .glass-panel {
+            background: rgba(17, 20, 23, 0.8);
+            backdrop-filter: blur(20px);
+        }
+        .primary-gradient {
+            background: linear-gradient(135deg, #3fff8b 0%, #13ea79 100%);
+        }
+        .asymmetric-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 1.5rem;
+        }
+        @media (max-width: 768px) {
+            .asymmetric-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="pb-32">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 py-4 w-full bg-gradient-to-b from-[#0c0e11] to-transparent">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#3fff8b] cursor-pointer hover:opacity-80 active:scale-95 transition-transform">arrow_back</span>
+<h1 class="font-['Manrope'] font-bold tracking-tight text-slate-50 text-lg">Lead Analysis</h1>
+</div>
+<div class="flex items-center gap-2">
+<div class="bg-[#3fff8b]/10 px-3 py-1 rounded-full">
+<span class="text-[#3fff8b] font-['Inter'] text-[10px] font-bold uppercase tracking-wider">Broker Pro</span>
+</div>
+<span class="material-symbols-outlined text-slate-400 cursor-pointer hover:opacity-80 active:scale-95 transition-transform">more_vert</span>
+</div>
+</header>
+<main class="mt-20 px-6 max-w-7xl mx-auto">
+<!-- Hero Section: Lead Profile -->
+<section class="mb-8">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="flex items-center gap-6">
+<div class="relative">
+<img alt="Lead Portrait" class="w-24 h-24 rounded-xl object-cover grayscale hover:grayscale-0 transition-all duration-500 border-2 border-primary/20" data-alt="professional headshot of a middle-aged hispanic man with a confident smile, warm studio lighting, dark background, cinematic style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGAGfkVWWHFfWdKilUGEWljgJslTKz_eioZ8dHz_VIGc3NgzWv1pVurhj6FLF8BgDqCVqiRexZq_TUlpGdn191_2dWauhgrMt-zNFJ8XJdPZOommwF-H5ERI66YaABI4CrC1RcNmEXENJEhMrKK9So4sf2PQgZDiwQ73V3qrJnsAgA1cOCvgCn0522vv7fQrsh4epTqGY2tIc7e7nPDw1MSP1MhZagGa6GRMh1_iLDJygXmCMUGyZCNzpf4MpxSmbZBi2a0bTe8Ox-"/>
+<div class="absolute -bottom-2 -right-2 bg-primary text-on-primary-container font-headline font-black text-xs px-2 py-1 rounded-md shadow-lg">
+                            TOP LEAD
+                        </div>
+</div>
+<div>
+<h2 class="font-headline font-extrabold text-4xl tracking-tighter text-on-surface">Ricardo Mendoza</h2>
+<div class="flex items-center gap-3 mt-1">
+<span class="bg-secondary-container text-on-secondary-container px-3 py-0.5 rounded-full text-xs font-semibold uppercase tracking-widest">Negociación</span>
+<span class="text-on-surface-variant text-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">location_on</span> Polanco, CDMX
+                            </span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-high p-6 rounded-xl flex items-center gap-6 min-w-[240px]">
+<div class="relative w-16 h-16 flex items-center justify-center">
+<svg class="absolute inset-0 w-full h-full -rotate-90">
+<circle class="text-white/5" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-primary" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" stroke-dasharray="175.9" stroke-dashoffset="8.8" stroke-width="4"></circle>
+</svg>
+<span class="font-headline font-black text-xl text-primary">95</span>
+</div>
+<div>
+<p class="text-xs uppercase tracking-widest text-on-surface-variant font-bold">Interés Score</p>
+<p class="text-primary text-sm font-medium">Alta probabilidad</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Insights Grid -->
+<div class="asymmetric-grid">
+<!-- Column Left: Analysis & Lab -->
+<div class="space-y-6">
+<!-- AI Insight Card -->
+<div class="bg-surface-container-low rounded-xl p-8 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4">
+<span class="material-symbols-outlined text-primary/40 text-4xl" data-weight="fill">smart_toy</span>
+</div>
+<div class="flex items-center gap-3 mb-6">
+<div class="w-1.5 h-6 bg-primary rounded-full"></div>
+<h3 class="font-headline font-bold text-xl uppercase tracking-tight">AI Tactical Analysis</h3>
+</div>
+<p class="font-body text-on-surface-variant leading-relaxed text-lg mb-6">
+                        "Busca <span class="text-primary font-semibold">PH en Polanco con terraza</span>, alta sensibilidad al precio, prefiere comunicación por <span class="text-secondary font-semibold">WhatsApp</span>. Ha interactuado 3 veces con el tour virtual."
+                    </p>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-highest/40 p-4 rounded-lg">
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant block mb-1">Pain Point</span>
+<span class="text-sm font-semibold">Cierre de presupuesto</span>
+</div>
+<div class="bg-surface-container-highest/40 p-4 rounded-lg">
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant block mb-1">Prioridad</span>
+<span class="text-sm font-semibold">Ubicación estratégica</span>
+</div>
+</div>
+</div>
+<!-- Lab de Scripts -->
+<div class="bg-surface-container-low rounded-xl p-8 border-t-4 border-primary/20">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h3 class="font-headline font-bold text-xl tracking-tight">Script Lab</h3>
+<p class="text-on-surface-variant text-sm">Generador de respuesta contextual</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">terminal</span>
+</div>
+<div class="space-y-4">
+<button class="w-full primary-gradient text-on-primary font-headline font-extrabold py-4 px-6 rounded-xl flex items-center justify-between group active:scale-95 transition-transform">
+<span>GENERAR SCRIPT DE CIERRE</span>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<button class="w-full bg-surface-container-highest text-on-surface font-headline font-bold py-4 px-6 rounded-xl flex items-center justify-between hover:bg-surface-bright transition-colors active:scale-95">
+<span>SCRIPT DE SEGUIMIENTO</span>
+<span class="material-symbols-outlined">history</span>
+</button>
+</div>
+<div class="mt-8 p-6 bg-surface-container-lowest rounded-xl border border-outline-variant/10">
+<div class="flex items-center gap-2 mb-4">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Draft Sugerido</span>
+</div>
+<p class="text-sm text-on-surface-variant italic leading-relaxed">
+                            "Hola Ricardo, revisando lo que platicamos sobre el PH con terraza en Polanco... tengo una actualización sobre la flexibilidad del propietario que te va a interesar. ¿Te marco a las 5?"
+                        </p>
+<div class="mt-4 flex justify-end gap-3">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">content_copy</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">edit</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Column Right: Timeline & Media -->
+<div class="space-y-6">
+<!-- Timeline Section -->
+<div class="bg-surface-container-low rounded-xl p-8 h-full">
+<h3 class="font-headline font-bold text-xl tracking-tight mb-8">Timeline de Actividad</h3>
+<div class="relative">
+<!-- Vertical line -->
+<div class="absolute left-3 top-0 bottom-0 w-0.5 bg-surface-container-highest"></div>
+<div class="space-y-8 relative">
+<!-- Timeline Item 1 -->
+<div class="flex gap-6 items-start">
+<div class="w-6 h-6 rounded-full bg-primary-container flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-[14px] text-on-primary-container" data-weight="fill">call</span>
+</div>
+<div>
+<h4 class="text-sm font-bold text-on-surface">Llamada de seguimiento</h4>
+<p class="text-xs text-on-surface-variant">Hace 2 horas • Duración 12min</p>
+</div>
+</div>
+<!-- Timeline Item 2 -->
+<div class="flex gap-6 items-start">
+<div class="w-6 h-6 rounded-full bg-secondary-container flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-[14px] text-on-secondary-container">mail</span>
+</div>
+<div>
+<h4 class="text-sm font-bold text-on-surface">Mail enviado</h4>
+<p class="text-xs text-on-surface-variant">Ayer • Contrato adjunto</p>
+</div>
+</div>
+<!-- Timeline Item 3 -->
+<div class="flex gap-6 items-start">
+<div class="w-6 h-6 rounded-full bg-surface-container-highest flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant" data-weight="fill">visibility</span>
+</div>
+<div>
+<h4 class="text-sm font-bold text-on-surface">Vista a Propiedad</h4>
+<p class="text-xs text-on-surface-variant">3 días atrás • PH Polanco</p>
+</div>
+</div>
+<!-- Timeline Item 4 -->
+<div class="flex gap-6 items-start">
+<div class="w-6 h-6 rounded-full bg-primary-container flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-[14px] text-on-primary-container">chat_bubble</span>
+</div>
+<div>
+<h4 class="text-sm font-bold text-on-surface">WhatsApp recibido</h4>
+<p class="text-xs text-on-surface-variant">4 días atrás • Consulta de precio</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Quick Actions Floating Bar (Natural Thumb Zone) -->
+<div class="fixed bottom-32 left-1/2 -translate-x-1/2 flex items-center gap-4 px-6 py-4 glass-panel rounded-full shadow-[0_-8px_32px_rgba(63,255,139,0.1)] border border-white/5 z-40">
+<button class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface hover:text-primary transition-colors active:scale-90">
+<span class="material-symbols-outlined">call</span>
+</button>
+<button class="w-14 h-14 rounded-full primary-gradient flex items-center justify-center text-on-primary shadow-lg shadow-primary/20 active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-weight="fill">chat_bubble</span>
+</button>
+<button class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface hover:text-primary transition-colors active:scale-90">
+<span class="material-symbols-outlined">calendar_today</span>
+</button>
+</div>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-3xl bg-[#0c0e11]/80 backdrop-blur-xl border-t border-white/5 shadow-[0_-8px_32px_rgba(63,255,139,0.05)] flex justify-around items-center px-4 pb-6 pt-2">
+<div class="flex flex-col items-center justify-center text-slate-500 p-2 hover:text-[#3fff8b]">
+<span class="material-symbols-outlined mb-1">home</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">Inicio</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-[#3fff8b]/10 text-[#3fff8b] rounded-xl p-2 active:scale-110 duration-300 ease-out">
+<span class="material-symbols-outlined mb-1">group</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">Leads</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-500 p-2 hover:text-[#3fff8b]">
+<span class="material-symbols-outlined mb-1">calendar_today</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">Agenda</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-500 p-2 hover:text-[#3fff8b]">
+<span class="material-symbols-outlined mb-1">smart_toy</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">IA</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-500 p-2 hover:text-[#3fff8b]">
+<span class="material-symbols-outlined mb-1">person</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">Perfil</span>
+</div>
+</nav>
+</body></html>

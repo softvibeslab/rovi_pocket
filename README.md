@@ -1,107 +1,122 @@
-# Rovi Pocket — Subproyecto Seed
+# Rovi Pocket
 
-Estado actual: semilla local dentro del repo principal
-Objetivo: evolucionar a repositorio independiente conectado por submódulo
+Estado actual: subproyecto Expo activo en repo independiente, conectado al repositorio principal como submodulo.
 
 Repositorio remoto:
 
 - https://github.com/softvibeslab/rovi_pocket.git
 
-## Qué es este folder
+## Que es este folder
 
-Este directorio existe para arrancar `Rovi Pocket` sin frenar la definición funcional, técnica y de diseño.
+Este directorio contiene la base tecnica de `Rovi Pocket`, la version mobile-first de Rovi enfocada exclusivamente en brokers individuales.
 
-La estrategia recomendada es:
+Hoy ya incluye:
 
-1. iniciar aquí el subproyecto dentro del repo principal,
-2. definir arquitectura, diseño y alcance,
-3. extraer este folder a un repositorio independiente,
-4. reconectarlo al repo principal como `git submodule`.
+- shell Expo con TypeScript,
+- navegacion por tabs,
+- pantallas base de `Dashboard`, `Leads`, `Agenda`, `IA` y `Perfil`,
+- mock data alineado al PRD Pocket,
+- export de disenos desde Stitch,
+- script para refrescar assets del proyecto Stitch.
 
-## Ruta propuesta
-
-```text
-apps/rovi-pocket/
-```
-
-## Estructura inicial
+## Estructura actual
 
 ```text
 apps/rovi-pocket/
 ├── README.md
 ├── design/
+│   └── stitch/
 ├── docs/
-└── src/
+├── scripts/
+├── src/
+├── App.tsx
+└── package.json
 ```
 
-## Cómo comenzamos
-
-### Fase 1: definición dentro del monorepo
-
-Durante esta fase usamos este folder para:
-
-- documentar alcance y flows,
-- recibir diseños y prototipos,
-- definir arquitectura del app shell,
-- preparar Sprint 0 y Sprint 1,
-- acordar el contrato de `Pocket API`.
-
-### Fase 2: bootstrap del proyecto móvil
-
-Cuando aprobemos el diseño base y el setup técnico:
+## Como correrlo
 
 ```bash
 cd apps/rovi-pocket
-npx create-expo-app@latest --template default@sdk-55 .
+npm install
+npm run start
 ```
 
-Después:
+Si quieres usar backend real con otra URL:
 
 ```bash
-npx expo install expo-notifications expo-contacts expo-sqlite
-npx expo install @tanstack/react-query zustand react-hook-form zod
+EXPO_PUBLIC_API_URL=http://localhost:8000 npm run start
 ```
 
-Nota:
+En Android emulator, el default ya intenta `http://10.0.2.2:8000`.
 
-- `sdk-55` es buena opción si queremos arrancar con stack más nuevo.
-- Si el equipo quiere máxima compatibilidad con Expo Go durante setup inicial, podemos usar `sdk-54`.
+Verificacion rapida:
 
-## Estrategia para convertirlo en repo independiente + submódulo
+```bash
+npm run typecheck
+```
 
-La guía exacta está en:
+## Arquitectura UI actual
+
+- `App.tsx`: orquestacion del shell, tabs y lead seleccionado.
+- `src/theme.ts`: tokens base de color, radios, spacing y layout.
+- `src/data/mock.ts`: dataset local para iterar UI sin bloquear backend.
+- `src/components/`: chrome y componentes reutilizables.
+- `src/screens/`: pantallas de producto inspiradas por Stitch.
+
+## Diseno y assets
+
+Export Stitch actual:
+
+- [design/stitch/rovi-pocket-12933692853021831749/README.md](/Users/newproject/Documents/GitHub/leadvibes/apps/rovi-pocket/design/stitch/rovi-pocket-12933692853021831749/README.md)
+
+Prompting y definicion de flows:
+
+- [../../docs/ROVI_POCKET_FIGMA_PROMPTS.md](/Users/newproject/Documents/GitHub/leadvibes/docs/ROVI_POCKET_FIGMA_PROMPTS.md)
+
+Guia de repo y submodulo:
 
 - [../../docs/ROVI_POCKET_REPO_SETUP.md](/Users/newproject/Documents/GitHub/leadvibes/docs/ROVI_POCKET_REPO_SETUP.md)
 
-Resumen:
+## Estado funcional actual
 
-1. desarrollar aquí el arranque,
-2. hacer `git subtree split --prefix=apps/rovi-pocket`,
-3. empujar ese historial a un repo nuevo `rovi-pocket`,
-4. reemplazar este folder por `git submodule`.
+- `Dashboard`: briefing IA, KPIs, plan tactico, top leads y agenda del dia.
+- `Leads`: busqueda, filtros, stream del pipeline y `Lead Insight Lab`.
+- `Agenda`: timeline diario y planner IA.
+- `IA`: copiloto conversacional con contexto del lead y acciones sugeridas.
+- `Perfil`: metas, integraciones y estado del broker.
 
-## Próximos entregables aquí
+## Como probar el mockup demo
 
-- app shell Expo
-- navegación por tabs
-- home/dashboard placeholder
-- lead list placeholder
-- lead detail placeholder
-- pantalla del Agente IA
-- carpeta de assets y tokens
+Al abrir la app:
 
-## Insumos de diseño
+1. inicia la `demo guiada`,
+2. usa la tarjeta de progreso para recorrer `Dashboard -> Leads -> IA -> Agenda -> Perfil`,
+3. prueba quick actions desde el dock inferior,
+4. valida toasts, bitacora y cambios locales de estado sobre leads.
 
-Cuando tengas diseños, prototipos o referencias, los puedes ordenar así:
+Todo esto corre con estado local y datos demo, sin dependencia de backend.
 
-```text
-apps/rovi-pocket/design/
-├── references/
-├── wireframes/
-├── prototypes/
-└── exports/
-```
+## Acceso real al backend
 
-También puedes usar los prompts de Figma en:
+La app ya soporta:
 
-- [../../docs/ROVI_POCKET_FIGMA_PROMPTS.md](/Users/newproject/Documents/GitHub/leadvibes/docs/ROVI_POCKET_FIGMA_PROMPTS.md)
+- login real contra `POST /api/auth/login`
+- carga de usuario actual con `GET /api/auth/me`
+- carga de leads con `GET /api/leads`
+- carga de detalle de lead con `GET /api/leads/:id`
+- carga de actividad reciente con `GET /api/dashboard/recent-activity`
+- generacion de script con `POST /api/leads/:id/generate-script`
+
+Si el backend no responde, puedes entrar por `modo demo` sin romper el flujo.
+
+## Siguiente etapa recomendada
+
+1. Crear `Pocket API` o capa BFF sobre FastAPI actual.
+2. Sustituir `mock.ts` por clientes de datos reales.
+3. Agregar auth real y storage seguro.
+4. Integrar Google Calendar, importacion de contactos y automatizaciones MVP.
+5. Reemplazar placeholders de accion por flows productivos.
+
+## Documento de implementacion
+
+- [docs/IMPLEMENTATION_STATUS.md](/Users/newproject/Documents/GitHub/leadvibes/apps/rovi-pocket/docs/IMPLEMENTATION_STATUS.md)
