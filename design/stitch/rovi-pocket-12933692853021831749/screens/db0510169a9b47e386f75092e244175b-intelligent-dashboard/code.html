@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Executive Tactician - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#23262a",
+                        "on-surface-variant": "#aaabaf",
+                        "on-surface": "#f9f9fd",
+                        "tertiary-container": "#00dcfd",
+                        "surface-variant": "#23262a",
+                        "on-primary-fixed": "#004820",
+                        "tertiary-fixed-dim": "#00cdec",
+                        "outline": "#747579",
+                        "background": "#0c0e11",
+                        "inverse-on-surface": "#535559",
+                        "on-error": "#490006",
+                        "primary-fixed": "#3fff8b",
+                        "inverse-primary": "#006e35",
+                        "on-tertiary-fixed": "#00343d",
+                        "secondary": "#929bfa",
+                        "on-background": "#f9f9fd",
+                        "on-tertiary": "#005360",
+                        "surface-dim": "#0c0e11",
+                        "on-secondary-fixed-variant": "#3e47a0",
+                        "on-primary-fixed-variant": "#006832",
+                        "on-secondary-fixed": "#1f2882",
+                        "surface-container-lowest": "#000000",
+                        "surface-bright": "#292c31",
+                        "on-error-container": "#ffa8a3",
+                        "on-tertiary-container": "#004955",
+                        "surface-tint": "#3fff8b",
+                        "on-secondary": "#0b1574",
+                        "primary-fixed-dim": "#24f07e",
+                        "error": "#ff716c",
+                        "primary-container": "#13ea79",
+                        "error-dim": "#d7383b",
+                        "outline-variant": "#46484b",
+                        "primary": "#3fff8b",
+                        "surface-container-high": "#1d2024",
+                        "surface": "#0c0e11",
+                        "primary-dim": "#24f07e",
+                        "on-primary-container": "#004f24",
+                        "tertiary-dim": "#00cdec",
+                        "secondary-fixed-dim": "#babfff",
+                        "on-tertiary-fixed-variant": "#005361",
+                        "on-primary": "#005d2c",
+                        "on-secondary-container": "#c9cdff",
+                        "secondary-dim": "#8d96f4",
+                        "secondary-container": "#343d96",
+                        "tertiary": "#7ae6ff",
+                        "inverse-surface": "#f9f9fd",
+                        "tertiary-fixed": "#00dcfd",
+                        "error-container": "#9f0519",
+                        "surface-container-low": "#111417",
+                        "surface-container": "#171a1d",
+                        "secondary-fixed": "#cbceff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0c0e11;
+            color: #f9f9fd;
+        }
+        h1, h2, h3, .headline {
+            font-family: 'Manrope', sans-serif;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .signature-gradient {
+            background: linear-gradient(135deg, #3fff8b 0%, #13ea79 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#0c0e11] bg-gradient-to-b from-[#0c0e11] to-transparent">
+<div class="flex justify-between items-center px-6 py-4 w-full">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center overflow-hidden ring-1 ring-primary/20">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="professional headshot of a real estate broker in a dark suit with a confident expression and neutral office background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuPYbTGGQH584imHrbWnAAkhLcDA-aNdc_yh_ZPt6n20urGk7CJ-iP75vyB8U6fEaK7IG4qLoloUWL92_3DYp__3ng0c8hRsDJcBSvroqbNm1_-GF_s0gq1jIWvwSvzwOgiangITDl24Oe1kGMB76VdZWj4PECfOdIqUgdIKRmR37af_YAwHwJ7PmoD9or-TpHaunPhAJvU0i9GJSt_K4zRcK___IR0JT5JNclyet_bDAHhsCn7aL_bZWoua76HvwJQoUo_trFFJmI"/>
+</div>
+<span class="text-lg font-black text-[#3fff8b] tracking-tighter">Executive Tactician</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-400 hover:opacity-80 transition-transform active:scale-95">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</div>
+</header>
+<main class="pt-24 px-6 max-w-5xl mx-auto space-y-8">
+<!-- Section 1: Contextual Greeting & Daily Summary -->
+<section class="space-y-2">
+<h1 class="text-3xl font-extrabold tracking-tight text-on-surface">Buenos días, Alejandro</h1>
+<p class="text-on-surface-variant font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-sm">calendar_today</span>
+                Hoy es Martes, 24 de Octubre • 3 cierres proyectados
+            </p>
+</section>
+<!-- Section 2: KPIs & Streak (Asymmetric Layout) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="md:col-span-2 bg-surface-container-low p-6 rounded-xl space-y-6">
+<div class="flex justify-between items-end">
+<div>
+<p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Ventas del Mes</p>
+<h2 class="text-4xl font-black text-on-surface">$2.4M <span class="text-sm font-medium text-primary">/ $3.0M</span></h2>
+</div>
+<div class="text-right">
+<span class="text-xs font-bold text-primary bg-primary/10 px-2 py-1 rounded">80% LOGRADO</span>
+</div>
+</div>
+<div class="h-3 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full signature-gradient" style="width: 80%"></div>
+</div>
+<div class="flex justify-between items-center pt-2">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="text-xs font-medium text-on-surface-variant">12 Leads Activos</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="text-xs font-medium text-on-surface-variant">5 En Negociación</span>
+</div>
+</div>
+</div>
+<!-- Gamification Streak -->
+<div class="bg-surface-container-high p-6 rounded-xl flex flex-col justify-between border-l-2 border-primary/30">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter text-on-surface-variant">Racha de Actividad</span>
+</div>
+<div>
+<h3 class="text-4xl font-black text-on-surface">14 <span class="text-lg text-on-surface-variant">Días</span></h3>
+<div class="flex gap-1 mt-3">
+<div class="h-1 flex-1 bg-primary rounded-full"></div>
+<div class="h-1 flex-1 bg-primary rounded-full"></div>
+<div class="h-1 flex-1 bg-primary rounded-full"></div>
+<div class="h-1 flex-1 bg-primary rounded-full"></div>
+<div class="h-1 flex-1 bg-primary rounded-full"></div>
+<div class="h-1 flex-1 bg-surface-container-highest rounded-full"></div>
+<div class="h-1 flex-1 bg-surface-container-highest rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Section 3: AI-Generated Plan -->
+<section class="space-y-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+<h2 class="text-xl font-bold tracking-tight">Plan Táctico IA</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="bg-surface-container p-4 rounded-xl border-l-4 border-primary hover:bg-surface-container-high transition-colors cursor-pointer">
+<p class="text-[10px] font-bold text-primary uppercase tracking-widest mb-1">Prioridad 1</p>
+<h3 class="font-bold text-on-surface leading-snug">Seguimiento: Mariana Soler</h3>
+<p class="text-sm text-on-surface-variant mt-2">Interés alto en Penthouse Polanco. Ofrece visita virtual hoy.</p>
+</div>
+<div class="bg-surface-container p-4 rounded-xl border-l-4 border-secondary hover:bg-surface-container-high transition-colors cursor-pointer">
+<p class="text-[10px] font-bold text-secondary uppercase tracking-widest mb-1">Prioridad 2</p>
+<h3 class="font-bold text-on-surface leading-snug">Cierre de Contrato</h3>
+<p class="text-sm text-on-surface-variant mt-2">Revisar cláusulas con legal para la propiedad "Lomas 40".</p>
+</div>
+<div class="bg-surface-container p-4 rounded-xl border-l-4 border-on-surface-variant hover:bg-surface-container-high transition-colors cursor-pointer">
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-1">Prioridad 3</p>
+<h3 class="font-bold text-on-surface leading-snug">Nuevos Listados</h3>
+<p class="text-sm text-on-surface-variant mt-2">Analizar 5 nuevos departamentos en preventa en Condesa.</p>
+</div>
+</div>
+</section>
+<!-- Section 4: Citas de Hoy (Horizontal Stream) -->
+<section class="space-y-4">
+<div class="flex justify-between items-center">
+<h2 class="text-xl font-bold tracking-tight">Citas de hoy</h2>
+<button class="text-xs font-bold text-secondary tracking-widest uppercase">Ver Agenda Full</button>
+</div>
+<div class="flex overflow-x-auto gap-4 no-scrollbar pb-2">
+<div class="min-w-[280px] bg-surface-container-high p-5 rounded-2xl space-y-4">
+<div class="flex justify-between items-start">
+<span class="px-3 py-1 rounded-full bg-secondary/10 text-secondary text-[10px] font-bold uppercase tracking-widest">10:30 AM</span>
+<span class="material-symbols-outlined text-on-surface-variant text-lg">more_horiz</span>
+</div>
+<div>
+<h4 class="font-bold text-lg text-on-surface">Visita Residencial</h4>
+<p class="text-xs text-on-surface-variant">Col. Roma Norte • Calle Colima 12</p>
+</div>
+<div class="flex items-center gap-2 pt-2">
+<img alt="Client" class="w-6 h-6 rounded-full object-cover" data-alt="headshot of a mature businessman with glasses and professional attire, focused and serious" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgO7AnI3SUCzOxhYMzw94DsP7e02sKXqeDFDuM5JhgJgRXcxhIqkeVbNJfEFgMwopKV5LFzrd1CMJXQkGeESNN-O90nIg_t4g3mIBzf082RqmZXEJl-ZGL-dW10faoIpMLqXeHIhle0LUossv8Ewtd_6C-L_YcszUBlb0xoYCaExJH_qs-R_2qy7Qo1tSaZ95JSk-ky1o3v68ohTKJir_egFHMboYlLJCk3Tt5h3-ygIkaJODrQjqbFM0OGqIv6YTdykeDP99cJtGF"/>
+<span class="text-xs font-medium text-on-surface">Roberto G.</span>
+</div>
+</div>
+<div class="min-w-[280px] bg-surface-container-high p-5 rounded-2xl space-y-4">
+<div class="flex justify-between items-start">
+<span class="px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest">02:00 PM</span>
+<span class="material-symbols-outlined text-on-surface-variant text-lg">more_horiz</span>
+</div>
+<div>
+<h4 class="font-bold text-lg text-on-surface">Firma de Escritura</h4>
+<p class="text-xs text-on-surface-variant">Notaría 45 • Santa Fe</p>
+</div>
+<div class="flex items-center gap-2 pt-2">
+<img alt="Client" class="w-6 h-6 rounded-full object-cover" data-alt="headshot of a professional young woman with a friendly smile, professional neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBf6bXmv68wJUhujzR6yNfOTtEDgUnZLcPkT_M2T0xd0ucyUmYn-05v4DFxCNoGkOIi89td8KMWcxuMvb-Fobl7BLun6TH2Z6Wd9-jQQk6faKqSyWG3cYcaAIqVaBSCOFQnQ-J787-2cZDtEvpKJV-jxNge10nVdXL6PuieOEx5GVc9AhOhgcrtOKfde9kwm4FjVHKg3r7aBByIaJbhnvzKePKWPQcUq3jifxHSz5gwJHPhzxPm5ScbTX3cJ3PyQA3HeetM1lTYmEgb"/>
+<span class="text-xs font-medium text-on-surface">Lucía Mendez</span>
+</div>
+</div>
+<div class="min-w-[280px] bg-surface-container-high p-5 rounded-2xl space-y-4 opacity-60">
+<div class="flex justify-between items-start">
+<span class="px-3 py-1 rounded-full bg-surface-container-highest text-on-surface-variant text-[10px] font-bold uppercase tracking-widest">05:00 PM</span>
+<span class="material-symbols-outlined text-on-surface-variant text-lg">more_horiz</span>
+</div>
+<div>
+<h4 class="font-bold text-lg text-on-surface">Zoom Seguimiento</h4>
+<p class="text-xs text-on-surface-variant">Online • ID: 890 234 112</p>
+</div>
+<div class="flex items-center gap-2 pt-2">
+<div class="w-6 h-6 rounded-full bg-tertiary flex items-center justify-center text-[10px] font-bold text-black">JD</div>
+<span class="text-xs font-medium text-on-surface">Juan Dieguez</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 5: Top 5 Hot Leads -->
+<section class="space-y-4">
+<h2 class="text-xl font-bold tracking-tight">Hot Leads</h2>
+<div class="space-y-3">
+<!-- Lead Card 1 -->
+<div class="bg-surface-container-high p-4 rounded-xl flex items-center justify-between group">
+<div class="flex items-center gap-4">
+<div class="relative">
+<img alt="Lead" class="w-12 h-12 rounded-full object-cover" data-alt="portrait of an elegant woman with short hair, direct eye contact, professional lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCr8tN0cxL9IAhzZVBBF4nFXo4TWc8HhWgSj6MgjVj86WlozPYq2bMNdjlWBPgY2RkNHVvxxOOKr3FFvAUv8H9BjgxqUpfb7sKTgqOvEUMy-vicFh7KEeUJ25nMrckdXUCXERawLRc5mzmppuOcxmtiapbIaYvs4zAPpxWIO3xGxBWmmfj6N3FX_8tto6MjMCwPorqjCL_EbPqjgsoKU8_IU2rq71r5XS9dxyCc8a639do9FkJUXCgNLXfraIQJ2kPYljrqAJhMulRe"/>
+<span class="absolute -bottom-1 -right-1 w-4 h-4 bg-primary border-2 border-surface-container-high rounded-full"></span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface">Sofía Velázquez</h4>
+<p class="text-xs text-on-surface-variant">Busca: Casa en Interlomas • $1.2M</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary hover:bg-primary hover:text-black transition-all">
+<span class="material-symbols-outlined text-lg">call</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary hover:bg-primary hover:text-black transition-all">
+<span class="material-symbols-outlined text-lg">chat_bubble</span>
+</button>
+</div>
+</div>
+<!-- Lead Card 2 -->
+<div class="bg-surface-container-high p-4 rounded-xl flex items-center justify-between group">
+<div class="flex items-center gap-4">
+<div class="relative">
+<img alt="Lead" class="w-12 h-12 rounded-full object-cover" data-alt="man in business casual attire with a warm and approachable expression, daylight interior setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-QwaKpTnxkG28g4mTJx3AyayyKOBwsr8iUcuLuhgD0bo4A2Lu2ILx9EFQzjqKEOZT-rmEQT6ncP46NyopvHp96f2sDRLKcJkYN5dWBnZNc4AG7iHEbBechUJGIjbf2tfjbwfLspkvC6bR9arRvONoZoflLMJ3v1UdhqJda1mx1v8ipUuJqVQnFqWlat2VcpM6l_hOfA3QCKbROSXhsL5S3SNZxt7R7vBPgKRKVn3E_EIdL0yh5fbUt6QFNI12xsmX3et8mo3DIWSv"/>
+<span class="absolute -bottom-1 -right-1 w-4 h-4 bg-primary border-2 border-surface-container-high rounded-full"></span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface">Daniel Portillo</h4>
+<p class="text-xs text-on-surface-variant">Busca: Oficina Corporativa • $450k</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary hover:bg-primary hover:text-black transition-all">
+<span class="material-symbols-outlined text-lg">call</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary hover:bg-primary hover:text-black transition-all">
+<span class="material-symbols-outlined text-lg">chat_bubble</span>
+</button>
+</div>
+</div>
+<!-- Lead Card 3 -->
+<div class="bg-surface-container-high p-4 rounded-xl flex items-center justify-between group">
+<div class="flex items-center gap-4">
+<div class="relative">
+<div class="w-12 h-12 rounded-full bg-secondary/20 flex items-center justify-center text-secondary font-bold">ML</div>
+<span class="absolute -bottom-1 -right-1 w-4 h-4 bg-secondary border-2 border-surface-container-high rounded-full"></span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface">Marco Luna</h4>
+<p class="text-xs text-on-surface-variant">Busca: Terreno Comercial • $2.1M</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary hover:bg-primary hover:text-black transition-all">
+<span class="material-symbols-outlined text-lg">call</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary hover:bg-primary hover:text-black transition-all">
+<span class="material-symbols-outlined text-lg">chat_bubble</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- FAB: Quick Action Hub -->
+<button class="fixed bottom-24 right-6 w-14 h-14 rounded-full signature-gradient shadow-lg shadow-primary/20 flex items-center justify-center text-black z-[60] active:scale-90 transition-transform">
+<span class="material-symbols-outlined font-bold text-2xl">add</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-3xl bg-[#0c0e11]/80 backdrop-blur-xl border-t border-white/5 shadow-[0_-8px_32px_rgba(63,255,139,0.05)]">
+<div class="flex justify-around items-center px-4 pb-6 pt-2 w-full">
+<a class="flex flex-col items-center justify-center bg-[#3fff8b]/10 text-[#3fff8b] rounded-xl p-2 active:scale-110 duration-300 ease-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Inicio</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 p-2 hover:text-[#3fff8b] active:scale-110 duration-300 ease-out" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Leads</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 p-2 hover:text-[#3fff8b] active:scale-110 duration-300 ease-out" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Agenda</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 p-2 hover:text-[#3fff8b] active:scale-110 duration-300 ease-out" href="#">
+<span class="material-symbols-outlined">smart_toy</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">IA</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 p-2 hover:text-[#3fff8b] active:scale-110 duration-300 ease-out" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Perfil</span>
+</a>
+</div>
+</nav>
+</body></html>

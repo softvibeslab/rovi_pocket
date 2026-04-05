@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-highest": "#23262a",
+                      "on-surface-variant": "#aaabaf",
+                      "on-surface": "#f9f9fd",
+                      "tertiary-container": "#00dcfd",
+                      "surface-variant": "#23262a",
+                      "on-primary-fixed": "#004820",
+                      "tertiary-fixed-dim": "#00cdec",
+                      "outline": "#747579",
+                      "background": "#0c0e11",
+                      "inverse-on-surface": "#535559",
+                      "on-error": "#490006",
+                      "primary-fixed": "#3fff8b",
+                      "inverse-primary": "#006e35",
+                      "on-tertiary-fixed": "#00343d",
+                      "secondary": "#929bfa",
+                      "on-background": "#f9f9fd",
+                      "on-tertiary": "#005360",
+                      "surface-dim": "#0c0e11",
+                      "on-secondary-fixed-variant": "#3e47a0",
+                      "on-primary-fixed-variant": "#006832",
+                      "on-secondary-fixed": "#1f2882",
+                      "surface-container-lowest": "#000000",
+                      "surface-bright": "#292c31",
+                      "on-error-container": "#ffa8a3",
+                      "on-tertiary-container": "#004955",
+                      "surface-tint": "#3fff8b",
+                      "on-secondary": "#0b1574",
+                      "primary-fixed-dim": "#24f07e",
+                      "error": "#ff716c",
+                      "primary-container": "#13ea79",
+                      "error-dim": "#d7383b",
+                      "outline-variant": "#46484b",
+                      "primary": "#3fff8b",
+                      "surface-container-high": "#1d2024",
+                      "surface": "#0c0e11",
+                      "primary-dim": "#24f07e",
+                      "on-primary-container": "#004f24",
+                      "tertiary-dim": "#00cdec",
+                      "secondary-fixed-dim": "#babfff",
+                      "on-tertiary-fixed-variant": "#005361",
+                      "on-primary": "#005d2c",
+                      "on-secondary-container": "#c9cdff",
+                      "secondary-dim": "#8d96f4",
+                      "secondary-container": "#343d96",
+                      "tertiary": "#7ae6ff",
+                      "inverse-surface": "#f9f9fd",
+                      "tertiary-fixed": "#00dcfd",
+                      "error-container": "#9f0519",
+                      "surface-container-low": "#111417",
+                      "surface-container": "#171a1d",
+                      "secondary-fixed": "#cbceff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "fontFamily": {
+                      "headline": ["Manrope"],
+                      "body": ["Inter"],
+                      "label": ["Inter"]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #0c0e11;
+            color: #f9f9fd;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .premium-gradient {
+            background: linear-gradient(135deg, #3fff8b 0%, #13ea79 100%);
+        }
+        .glass-shell {
+            background: rgba(17, 20, 23, 0.8);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body selection:bg-primary/30">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#0c0e11] bg-gradient-to-b from-[#0c0e11] to-transparent">
+<div class="flex justify-between items-center px-6 py-4 w-full">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden border border-white/5">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Close-up portrait of a professional man in a dark suit with a friendly expression, studio lighting, high resolution" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCO45c87yJv65Er2qB6buy0PTT_-iwf9scjqwZ9a5N0j7PE6d5fc0VbiQirGPGyYvqjeInIi5rBqSeWC4Z9r6nDSg-7LE7sCP_myCUz0YunrgRPahO7F7e2-n0U0vi2st2mSPjXB4upnOXKH-PqA8vMM0vwshUQAgsDSam8f0G-W5_SEWwnESJxXpkXAKbxaTnBDRKhoIAT20QaL95Djz0qLwwwCpf1__pa6bZg8G8dAMuK3Isb0noBNnxAn1pd3sy4cpBVjh46tpE3"/>
+</div>
+<div>
+<span class="block text-[10px] uppercase tracking-widest text-on-surface-variant font-label font-medium">Buenos días</span>
+<h1 class="font-headline font-bold tracking-tight text-on-surface leading-tight">Executive Tactician</h1>
+</div>
+</div>
+<button class="w-10 h-10 flex items-center justify-center text-slate-400 hover:opacity-80 active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</div>
+</header>
+<main class="pt-20 pb-32 px-6">
+<!-- Syncing Banner -->
+<div class="mb-6 flex items-center justify-between bg-secondary-container/20 px-4 py-3 rounded-xl border border-secondary/10">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary animate-pulse text-sm" data-icon="sync">sync</span>
+<span class="text-xs font-medium text-secondary tracking-wide">Syncing...</span>
+</div>
+<span class="text-[10px] text-on-surface-variant">24% completado</span>
+</div>
+<!-- Section Header -->
+<div class="mb-6">
+<h2 class="font-headline text-2xl font-extrabold tracking-tighter text-on-surface">Actividad Reciente</h2>
+<p class="text-sm text-on-surface-variant font-label">Tus prospectos más calientes de hoy</p>
+</div>
+<!-- Bento Feed / Compact Cards -->
+<div class="grid gap-4">
+<!-- Lead Card 1 -->
+<div class="bg-surface-container-high rounded-xl p-4 flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant font-semibold mb-1">Preventa Polanco</span>
+<h3 class="font-headline text-lg font-bold leading-tight">Ricardo Mendoza</h3>
+</div>
+<span class="bg-error-container text-on-error-container text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-tighter">Hot</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm" data-icon="payments">payments</span>
+<span class="text-xs font-medium">$12.4M MXN</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm" data-icon="schedule">schedule</span>
+<span class="text-xs font-medium">Hace 12 min</span>
+</div>
+</div>
+</div>
+<!-- Lead Card 2 -->
+<div class="bg-surface-container-high rounded-xl p-4 flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant font-semibold mb-1">Renta Santa Fe</span>
+<h3 class="font-headline text-lg font-bold leading-tight">Sofía Arriaga</h3>
+</div>
+<span class="bg-secondary-container text-on-secondary-container text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-tighter">En Seguimiento</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm" data-icon="payments">payments</span>
+<span class="text-xs font-medium">$45k MXN</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm" data-icon="schedule">schedule</span>
+<span class="text-xs font-medium">Hace 2 horas</span>
+</div>
+</div>
+</div>
+<!-- Lead Card 3 (Stagnant) -->
+<div class="bg-surface-container-low rounded-xl p-4 flex flex-col gap-4 opacity-70">
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant font-semibold mb-1">Terreno Valle</span>
+<h3 class="font-headline text-lg font-bold leading-tight">Héctor G.</h3>
+</div>
+<span class="bg-surface-container-highest text-on-surface-variant text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-tighter">Stagnant</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm" data-icon="payments">payments</span>
+<span class="text-xs font-medium">$3.1M MXN</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm" data-icon="schedule">schedule</span>
+<span class="text-xs font-medium">Hace 4 días</span>
+</div>
+</div>
+</div>
+<!-- Dashboard Stats Asymmetric Row -->
+<div class="grid grid-cols-2 gap-4 mt-2">
+<div class="bg-primary/10 rounded-xl p-4 border border-primary/5">
+<span class="text-[10px] uppercase tracking-widest text-primary font-bold block mb-2">Cierre Estimado</span>
+<span class="font-headline text-2xl font-extrabold text-on-surface tracking-tighter">$24.8M</span>
+</div>
+<div class="bg-surface-container-high rounded-xl p-4">
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold block mb-2">Conversión</span>
+<span class="font-headline text-2xl font-extrabold text-on-surface tracking-tighter">18.5%</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Global FAB -->
+<div class="fixed bottom-28 left-1/2 -translate-x-1/2 z-[60]">
+<button class="premium-gradient w-16 h-16 rounded-full flex items-center justify-center shadow-[0_8px_32px_rgba(63,255,139,0.3)] active:scale-110 transition-transform duration-300 ease-out">
+<span class="material-symbols-outlined text-on-primary-fixed text-3xl font-bold" data-icon="add">add</span>
+</button>
+</div>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-3xl bg-[#0c0e11]/80 backdrop-blur-xl border-t border-white/5 shadow-[0_-8px_32px_rgba(63,255,139,0.05)]">
+<div class="flex justify-around items-center px-4 pb-8 pt-2 w-full">
+<!-- Inicio (Active) -->
+<a class="flex flex-col items-center justify-center bg-[#3fff8b]/10 text-[#3fff8b] rounded-xl p-2 active:scale-110 duration-300 ease-out" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="home">home</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">Inicio</span>
+</a>
+<!-- Leads -->
+<a class="flex flex-col items-center justify-center text-slate-500 p-2 hover:text-[#3fff8b]" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="group">group</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">Leads</span>
+</a>
+<!-- Spacer for FAB -->
+<div class="w-12"></div>
+<!-- Agenda -->
+<a class="flex flex-col items-center justify-center text-slate-500 p-2 hover:text-[#3fff8b]" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="calendar_today">calendar_today</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">Agenda</span>
+</a>
+<!-- Perfil (Corrected Mapping) -->
+<a class="flex flex-col items-center justify-center text-slate-500 p-2 hover:text-[#3fff8b]" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="person">person</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">Perfil</span>
+</a>
+</div>
+</nav>
+<!-- Invisible AI floating hint -->
+<div class="fixed bottom-24 right-6 pointer-events-none">
+<div class="bg-surface-bright/90 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/5 flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px] text-tertiary" data-icon="smart_toy">smart_toy</span>
+<span class="text-[9px] uppercase tracking-tighter font-bold text-on-surface">IA Activa</span>
+</div>
+</div>
+</body></html>

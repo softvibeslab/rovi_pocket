@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-highest": "#23262a",
+                    "on-surface-variant": "#aaabaf",
+                    "on-surface": "#f9f9fd",
+                    "tertiary-container": "#00dcfd",
+                    "surface-variant": "#23262a",
+                    "on-primary-fixed": "#004820",
+                    "tertiary-fixed-dim": "#00cdec",
+                    "outline": "#747579",
+                    "background": "#0c0e11",
+                    "inverse-on-surface": "#535559",
+                    "on-error": "#490006",
+                    "primary-fixed": "#3fff8b",
+                    "inverse-primary": "#006e35",
+                    "on-tertiary-fixed": "#00343d",
+                    "secondary": "#929bfa",
+                    "on-background": "#f9f9fd",
+                    "on-tertiary": "#005360",
+                    "surface-dim": "#0c0e11",
+                    "on-secondary-fixed-variant": "#3e47a0",
+                    "on-primary-fixed-variant": "#006832",
+                    "on-secondary-fixed": "#1f2882",
+                    "surface-container-lowest": "#000000",
+                    "surface-bright": "#292c31",
+                    "on-error-container": "#ffa8a3",
+                    "on-tertiary-container": "#004955",
+                    "surface-tint": "#3fff8b",
+                    "on-secondary": "#0b1574",
+                    "primary-fixed-dim": "#24f07e",
+                    "error": "#ff716c",
+                    "primary-container": "#13ea79",
+                    "error-dim": "#d7383b",
+                    "outline-variant": "#46484b",
+                    "primary": "#3fff8b",
+                    "surface-container-high": "#1d2024",
+                    "surface": "#0c0e11",
+                    "primary-dim": "#24f07e",
+                    "on-primary-container": "#004f24",
+                    "tertiary-dim": "#00cdec",
+                    "secondary-fixed-dim": "#babfff",
+                    "on-tertiary-fixed-variant": "#005361",
+                    "on-primary": "#005d2c",
+                    "on-secondary-container": "#c9cdff",
+                    "secondary-dim": "#8d96f4",
+                    "secondary-container": "#343d96",
+                    "tertiary": "#7ae6ff",
+                    "inverse-surface": "#f9f9fd",
+                    "tertiary-fixed": "#00dcfd",
+                    "error-container": "#9f0519",
+                    "surface-container-low": "#111417",
+                    "surface-container": "#171a1d",
+                    "secondary-fixed": "#cbceff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(17, 20, 23, 0.8);
+            backdrop-filter: blur(20px);
+        }
+        .glow-pulse {
+            box-shadow: 0 0 20px rgba(63, 255, 139, 0.15);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body selection:bg-primary/30 min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#0c0e11] bg-gradient-to-b from-[#0c0e11] to-transparent">
+<div class="flex justify-between items-center px-6 py-4 w-full">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="w-10 h-10 rounded-full overflow-hidden border border-primary/20 bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+</div>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-primary rounded-full border-2 border-background"></div>
+</div>
+<div>
+<h1 class="font-headline font-bold tracking-tight text-on-surface leading-none">Rovi AI</h1>
+<div class="flex items-center gap-1.5 mt-1">
+<span class="w-1 h-1 bg-primary rounded-full animate-pulse"></span>
+<p class="font-label text-[10px] uppercase tracking-widest text-primary/80">Online</p>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-400 hover:opacity-80 Active: scale-95 transition-transform">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/10">
+<img class="w-full h-full object-cover" data-alt="professional headshot of a real estate executive with a confident smile, studio lighting, dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqNnVYgG_Pygpyzsnu06RrDok8hjSmwYUUXUQaAqlFcGNEo7JpkiSDEu7o42jEjWdQjDBssUn2qE5eXijhvmSjNLiPPdMv_6ZbL9ee9tNZUVY5gwIH8Q1zP0kxfO3cwIBf4WsyqoSArCGcVMrY4q5O3ffZ3Jp8gdTo-OiACE6FsZinjptUvrcZlR8kUrtMV6R_fEeKnmYy7C52ZiDPFGCsCB-4FIGecMX1Mee3McxdXb_NF44B5WgiBuVOlIVjtcieehuznL5dj-7r"/>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-48 px-4 max-w-2xl mx-auto min-h-screen flex flex-col gap-8">
+<!-- Contextual Indicator -->
+<div class="flex justify-center">
+<div class="bg-surface-container-low border border-white/5 rounded-full px-4 py-2 flex items-center gap-3 glow-pulse">
+<span class="material-symbols-outlined text-secondary text-sm">search_check</span>
+<p class="text-xs font-medium text-on-surface-variant tracking-wide">Analyzing Lead: <span class="text-on-surface">Juan Perez</span></p>
+</div>
+</div>
+<!-- Chat Thread -->
+<div class="flex flex-col gap-6">
+<!-- User Message -->
+<div class="flex justify-end ml-12">
+<div class="bg-surface-container-high rounded-2xl rounded-tr-none px-5 py-3 shadow-lg">
+<p class="text-sm leading-relaxed text-on-surface">Can you help me prepare for my meeting with Juan? I need a summary and a follow-up script.</p>
+</div>
+</div>
+<!-- AI Message + Thought State -->
+<div class="flex gap-4 mr-12">
+<div class="mt-1 flex-shrink-0">
+<div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+</div>
+</div>
+<div class="flex flex-col gap-4 w-full">
+<div class="bg-surface-container-low rounded-2xl rounded-tl-none px-5 py-3 border-l-2 border-primary/30">
+<p class="text-sm leading-relaxed text-on-surface">Of course. I've analyzed Juan's last interactions. He's looking for a 3-bedroom penthouse in Polanco. Here is the tactical summary for your meeting:</p>
+</div>
+<!-- AI Rich Card: Tactical Summary -->
+<div class="bg-surface-container-high rounded-xl overflow-hidden shadow-2xl border border-white/5">
+<div class="p-4 bg-gradient-to-r from-primary/10 to-transparent">
+<h3 class="font-headline font-bold text-sm text-primary uppercase tracking-wider">Lead Profile: Juan Perez</h3>
+</div>
+<div class="p-5 flex flex-col gap-4">
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-1">
+<p class="text-[10px] font-medium text-on-surface-variant uppercase tracking-tighter">Budget Range</p>
+<p class="text-sm font-semibold">$1.2M - $1.5M USD</p>
+</div>
+<div class="space-y-1">
+<p class="text-[10px] font-medium text-on-surface-variant uppercase tracking-tighter">Status</p>
+<span class="inline-flex px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[10px] font-bold">HOT LEAD</span>
+</div>
+</div>
+<div class="pt-4 border-t border-white/5 space-y-2">
+<p class="text-xs text-on-surface-variant">Juan prioritized <span class="text-secondary">outdoor space</span> and <span class="text-secondary">automated security</span> in his last call.</p>
+</div>
+<div class="flex flex-wrap gap-2 pt-2">
+<button class="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg bg-primary text-on-primary-container font-bold text-xs hover:opacity-90 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-sm">add_task</span>
+                                    Create task
+                                </button>
+<button class="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg bg-surface-container-highest text-on-surface font-bold text-xs border border-white/10 hover:bg-surface-bright transition-colors">
+<span class="material-symbols-outlined text-sm">description</span>
+                                    WhatsApp Script
+                                </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Thinking State -->
+<div class="flex gap-4 mr-12 opacity-60">
+<div class="mt-1 flex-shrink-0">
+<div class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant text-sm animate-spin">cyclone</span>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-2xl rounded-tl-none px-5 py-3 border border-white/5 italic text-sm text-on-surface-variant">
+                    Generating WhatsApp Script tailored to penthouse availability...
+                </div>
+</div>
+</div>
+</main>
+<!-- Composer Area (Fixed Bottom) -->
+<div class="fixed bottom-0 w-full z-40">
+<!-- Suggested Prompts -->
+<div class="max-w-2xl mx-auto px-4 pb-4">
+<div class="flex gap-2 overflow-x-auto no-scrollbar pb-2">
+<button class="whitespace-nowrap px-4 py-2 bg-surface-container-low border border-white/10 rounded-full text-xs font-medium text-on-surface-variant hover:text-primary hover:border-primary/40 transition-colors">
+                    Who should I call today?
+                </button>
+<button class="whitespace-nowrap px-4 py-2 bg-surface-container-low border border-white/10 rounded-full text-xs font-medium text-on-surface-variant hover:text-primary hover:border-primary/40 transition-colors">
+                    Prepare for meeting
+                </button>
+<button class="whitespace-nowrap px-4 py-2 bg-surface-container-low border border-white/10 rounded-full text-xs font-medium text-on-surface-variant hover:text-primary hover:border-primary/40 transition-colors">
+                    Summarize Juan's history
+                </button>
+</div>
+</div>
+<!-- Main Input -->
+<div class="glass-panel border-t border-white/5 pt-4 pb-8 px-6">
+<div class="max-w-2xl mx-auto flex items-center gap-3 bg-surface-container-highest/50 rounded-2xl p-2 border border-white/10">
+<button class="p-2 text-primary hover:bg-primary/10 rounded-xl transition-colors">
+<span class="material-symbols-outlined">mic</span>
+</button>
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-sm text-on-surface placeholder:text-slate-500" placeholder="Message Rovi AI..." type="text"/>
+<button class="w-10 h-10 flex items-center justify-center bg-primary text-on-primary-container rounded-xl shadow-lg shadow-primary/20 hover:opacity-90 active:scale-90 transition-all">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">send</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Bottom Navigation (Hidden on focus/Mobile intent rule) -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-3xl bg-[#0c0e11]/80 backdrop-blur-xl border-t border-white/5 shadow-[0_-8px_32px_rgba(63,255,139,0.05)] md:hidden">
+<div class="flex justify-around items-center px-4 pb-6 pt-2 w-full">
+<a class="flex flex-col items-center justify-center text-slate-500 p-2 hover:text-[#3fff8b]" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Inicio</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 p-2 hover:text-[#3fff8b]" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Leads</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 p-2 hover:text-[#3fff8b]" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Agenda</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-[#3fff8b]/10 text-[#3fff8b] rounded-xl p-2 active:scale-110 duration-300 ease-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">IA</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 p-2 hover:text-[#3fff8b]" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Perfil</span>
+</a>
+</div>
+</nav>
+</body></html>
