@@ -2,22 +2,26 @@
   "expo": {
     "name": "Rovi Pocket",
     "slug": "rovi-pocket",
+    "scheme": "rovi-pocket",
     "version": "0.1.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "ios": {
+      "bundleIdentifier": "com.softvibeslab.rovipocket",
       "supportsTablet": true
     },
     "android": {
+      "package": "com.softvibeslab.rovipocket",
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
     },
     "web": {},
     "extra": {
       "eas": {
-        "projectId": "52d3293b-62c5-400b-8139-daea43f06d22"
+        "projectId": "f65ebd72-69d7-4c56-859e-30f8f4d220ad"
       }
-    }
+    },
+    "owner": "softvibeslab"
   }
 }
