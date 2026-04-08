@@ -35,6 +35,6 @@ export const spacing = {
 
 export const layout = {
   tabBarHeight: 88,
-  dockHeight: 118,
-  screenBottomInset: 232,
+  dockHeight: 176,
+  screenBottomInset: 236,
 };

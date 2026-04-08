@@ -8,6 +8,8 @@ La base del subproyecto ya cubre:
 - navegacion inferior con 5 tabs
 - tema dark premium inspirado en Stitch
 - dataset local para pruebas de flujo
+- demo guiada flotante que se puede abrir, ocultar y retomar
+- rail lateral de utilidades para guia y atajos
 - vistas iniciales para:
   - Dashboard
   - Leads
@@ -55,6 +57,9 @@ src/
 - scoring e insight visible en leads
 - estructura de copiloto IA centrada en contexto
 - cards y chrome reutilizables
+- dashboard en `Modo Momentum` con foco en la accion mas importante del dia
+- popup de atajos para no invadir la UI principal
+- scripts EAS para APK preview y flujo reproducible de demo Android
 - base lista para reemplazar mock data por API real
 
 ## Proxima integracion recomendada

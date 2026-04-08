@@ -1,6 +1,6 @@
 import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
 
-import { palette, radii, spacing } from "../theme";
+import { layout, palette, radii, spacing } from "../theme";
 import { DemoStep, QuickAction } from "../types";
 
 export function DemoIntroModal({
@@ -19,16 +19,16 @@ export function DemoIntroModal({
           <Text style={styles.modalEyebrow}>Rovi Pocket demo</Text>
           <Text style={styles.modalTitle}>Mockup navegable con datos demo</Text>
           <Text style={styles.modalBody}>
-            Puedes recorrer el flujo completo del broker: dashboard, lead insight lab, asistente
-            IA, agenda y perfil. Todo corre con estado local para validar experiencia antes de la
-            implementacion funcional.
+            Puedes recorrer el flujo completo del broker: Modo Momentum, lead insight lab,
+            asistente IA, agenda y perfil. La guia flotante se puede ocultar o retomar cuando
+            quieras sin tapar la app.
           </Text>
 
           <View style={styles.bulletStack}>
-            <Text style={styles.bullet}>- Dashboard con prioridades, metas y top leads</Text>
+            <Text style={styles.bullet}>- Modo Momentum con una mision clara al abrir la app</Text>
             <Text style={styles.bullet}>- Leads con score, pain point y scripts sugeridos</Text>
             <Text style={styles.bullet}>- IA con respuestas accionables y contexto del CRM</Text>
-            <Text style={styles.bullet}>- Agenda y quick actions de broker mobile-first</Text>
+            <Text style={styles.bullet}>- Agenda y ejecucion de broker mobile-first</Text>
           </View>
 
           <View style={styles.modalActions}>
@@ -45,17 +45,25 @@ export function DemoIntroModal({
   );
 }
 
-export function DemoProgressCard({
+export function DemoGuideOverlay({
+  visible,
+  guideStarted,
   steps,
   activeStepId,
   onSelectStep,
+  onClose,
   onContinue,
 }: {
+  visible: boolean;
+  guideStarted: boolean;
   steps: DemoStep[];
   activeStepId: string;
   onSelectStep: (stepId: string) => void;
+  onClose: () => void;
   onContinue: () => void;
 }) {
+  if (!visible || !guideStarted) return null;
+
   const currentStep = steps.find((step) => step.id === activeStepId) ?? steps[0];
   const currentIndex = Math.max(
     0,
@@ -63,33 +71,51 @@ export function DemoProgressCard({
   );
 
   return (
-    <View style={styles.progressCard}>
-      <Text style={styles.progressEyebrow}>
-        Demo guiada · {currentIndex + 1}/{steps.length}
-      </Text>
-      <Text style={styles.progressTitle}>{currentStep.title}</Text>
-      <Text style={styles.progressBody}>{currentStep.body}</Text>
+    <View pointerEvents="box-none" style={styles.guideWrap}>
+      <View style={styles.guideCard}>
+        <View style={styles.guideHeader}>
+          <View style={styles.guideHeaderCopy}>
+            <Text style={styles.progressEyebrow}>
+              Demo guiada · {currentIndex + 1}/{steps.length}
+            </Text>
+            <Text style={styles.progressTitle}>{currentStep.title}</Text>
+          </View>
+          <Pressable style={styles.closePill} onPress={onClose}>
+            <Text style={styles.closePillText}>Cerrar</Text>
+          </Pressable>
+        </View>
 
-      <View style={styles.stepRow}>
-        {steps.map((step) => {
-          const active = step.id === currentStep.id;
-          return (
-            <Pressable
-              key={step.id}
-              style={[styles.stepPill, active && styles.stepPillActive]}
-              onPress={() => onSelectStep(step.id)}
-            >
-              <Text style={[styles.stepPillText, active && styles.stepPillTextActive]}>
-                {step.label}
-              </Text>
-            </Pressable>
-          );
-        })}
+        <Text style={styles.progressBody}>{currentStep.body}</Text>
+        <Text style={styles.guideHint}>
+          Puedes navegar libremente por la app y retomar la guia cuando quieras.
+        </Text>
+
+        <View style={styles.stepRow}>
+          {steps.map((step) => {
+            const active = step.id === currentStep.id;
+            return (
+              <Pressable
+                key={step.id}
+                style={[styles.stepPill, active && styles.stepPillActive]}
+                onPress={() => onSelectStep(step.id)}
+              >
+                <Text style={[styles.stepPillText, active && styles.stepPillTextActive]}>
+                  {step.label}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </View>
+
+        <View style={styles.guideActions}>
+          <Pressable style={styles.dismissButton} onPress={onClose}>
+            <Text style={styles.dismissButtonText}>Ocultar</Text>
+          </Pressable>
+          <Pressable style={styles.progressButton} onPress={onContinue}>
+            <Text style={styles.progressButtonText}>{currentStep.cta}</Text>
+          </Pressable>
+        </View>
       </View>
-
-      <Pressable style={styles.progressButton} onPress={onContinue}>
-        <Text style={styles.progressButtonText}>{currentStep.cta}</Text>
-      </Pressable>
     </View>
   );
 }
@@ -106,30 +132,42 @@ export function DemoToast({ message }: { message: string | null }) {
   );
 }
 
-export function QuickActionSheet({
+export function QuickActionsSheet({
   visible,
   actions,
   onClose,
-  onSelect,
+  onSelectAction,
 }: {
   visible: boolean;
   actions: QuickAction[];
   onClose: () => void;
-  onSelect: (actionId: string) => void;
+  onSelectAction: (actionId: string) => void;
 }) {
   return (
     <Modal visible={visible} transparent animationType="slide">
       <View style={styles.sheetOverlay}>
         <Pressable style={styles.sheetBackdrop} onPress={onClose} />
         <View style={styles.sheet}>
-          <Text style={styles.sheetEyebrow}>Quick actions</Text>
-          <Text style={styles.sheetTitle}>Flujos demo del broker</Text>
+          <View style={styles.sheetHeader}>
+            <View style={styles.sheetHeaderCopy}>
+              <Text style={styles.sheetEyebrow}>Pocket shortcuts</Text>
+              <Text style={styles.sheetTitle}>Atajos rapidos del broker</Text>
+              <Text style={styles.sheetBody}>
+                Estas acciones viven en popup para no tapar modulos ni tarjetas clave.
+              </Text>
+            </View>
+            <Pressable style={styles.closePill} onPress={onClose}>
+              <Text style={styles.closePillText}>Ocultar</Text>
+            </Pressable>
+          </View>
+
           <View style={styles.sheetStack}>
+            <Text style={styles.sheetSectionTitle}>Acciones rapidas</Text>
             {actions.map((action) => (
               <Pressable
                 key={action.id}
                 style={styles.sheetAction}
-                onPress={() => onSelect(action.id)}
+                onPress={() => onSelectAction(action.id)}
               >
                 <Text style={styles.sheetActionTitle}>{action.label}</Text>
                 <Text style={styles.sheetActionHint}>{action.hint}</Text>
@@ -238,6 +276,11 @@ const styles = StyleSheet.create({
     fontSize: 13,
     lineHeight: 19,
   },
+  guideHint: {
+    color: palette.tertiary,
+    fontSize: 12,
+    lineHeight: 17,
+  },
   stepRow: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -296,6 +339,57 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     textAlign: "center",
   },
+  guideWrap: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: layout.tabBarHeight + spacing.xl,
+    paddingLeft: spacing.xl,
+    paddingRight: 118,
+    zIndex: 20,
+  },
+  guideCard: {
+    maxWidth: 320,
+    borderRadius: radii.lg,
+    backgroundColor: "rgba(17,20,23,0.96)",
+    padding: spacing.lg,
+    gap: spacing.sm,
+    borderWidth: 1,
+    borderColor: "rgba(63,255,139,0.12)",
+    shadowColor: palette.shadow,
+    shadowOpacity: 1,
+    shadowOffset: { width: 0, height: 12 },
+    shadowRadius: 24,
+    elevation: 12,
+  },
+  guideHeader: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    gap: spacing.md,
+  },
+  guideHeaderCopy: {
+    flex: 1,
+    gap: 2,
+  },
+  guideActions: {
+    flexDirection: "row",
+    gap: spacing.sm,
+    marginTop: spacing.xs,
+  },
+  dismissButton: {
+    minHeight: 44,
+    paddingHorizontal: spacing.md,
+    borderRadius: radii.md,
+    backgroundColor: palette.surface,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  dismissButtonText: {
+    color: palette.text,
+    fontSize: 12,
+    fontWeight: "800",
+  },
   sheetOverlay: {
     flex: 1,
     justifyContent: "flex-end",
@@ -313,6 +407,16 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
     gap: spacing.md,
   },
+  sheetHeader: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    gap: spacing.md,
+  },
+  sheetHeaderCopy: {
+    flex: 1,
+    gap: spacing.xs,
+  },
   sheetEyebrow: {
     color: palette.primary,
     fontSize: 10,
@@ -325,8 +429,31 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "900",
   },
+  sheetBody: {
+    color: palette.textMuted,
+    fontSize: 13,
+    lineHeight: 19,
+  },
+  closePill: {
+    minHeight: 36,
+    borderRadius: radii.full,
+    backgroundColor: palette.surface,
+    paddingHorizontal: spacing.md,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  closePillText: {
+    color: palette.text,
+    fontSize: 12,
+    fontWeight: "800",
+  },
   sheetStack: {
     gap: spacing.sm,
+  },
+  sheetSectionTitle: {
+    color: palette.text,
+    fontSize: 15,
+    fontWeight: "800",
   },
   sheetAction: {
     borderRadius: radii.lg,

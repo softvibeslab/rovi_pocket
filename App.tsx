@@ -2,8 +2,8 @@ import { StatusBar } from "expo-status-bar";
 import { useEffect, useMemo, useState } from "react";
 import { SafeAreaView, StyleSheet, View } from "react-native";
 
-import { BottomTabs, FloatingActionDock, TopBar } from "./src/components/chrome";
-import { DemoIntroModal, DemoProgressCard, DemoToast, QuickActionSheet } from "./src/components/demo";
+import { BottomTabs, FloatingUtilityRail, TopBar } from "./src/components/chrome";
+import { DemoGuideOverlay, DemoIntroModal, DemoToast, QuickActionsSheet } from "./src/components/demo";
 import {
   agendaItems as initialAgendaItems,
   brokerProfile,
@@ -69,8 +69,10 @@ export default function App() {
   const [liveToken, setLiveToken] = useState<string | null>(null);
   const [liveProfile, setLiveProfile] = useState(brokerProfile);
   const [demoStepId, setDemoStepId] = useState(demoFlowSteps[0]?.id ?? "dashboard");
+  const [guideStarted, setGuideStarted] = useState(false);
   const [showDemoIntro, setShowDemoIntro] = useState(true);
-  const [showActionSheet, setShowActionSheet] = useState(false);
+  const [showGuideOverlay, setShowGuideOverlay] = useState(false);
+  const [showQuickActions, setShowQuickActions] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const selectedLead = useMemo(() => {
@@ -110,6 +112,9 @@ export default function App() {
     setActivityFeed(initialActivityFeed);
     setShowDemoIntro(true);
     setDemoStepId("dashboard");
+    setGuideStarted(false);
+    setShowGuideOverlay(false);
+    setShowQuickActions(false);
     setActiveTab("home");
   };
 
@@ -237,7 +242,7 @@ export default function App() {
   };
 
   const handleQuickAction = (actionId: string) => {
-    setShowActionSheet(false);
+    setShowQuickActions(false);
     if (actionId === "new-lead") {
       setActiveTab("leads");
       pushActivity("Nuevo lead express", "Se abriria el formulario rapido de captura.", "primary");
@@ -269,6 +274,41 @@ export default function App() {
     setActiveTab(step.tab);
   };
 
+  const startDemo = () => {
+    setShowDemoIntro(false);
+    setGuideStarted(true);
+    setShowGuideOverlay(true);
+    setShowQuickActions(false);
+    setActiveTab("home");
+    setDemoStepId("dashboard");
+    notify("Demo guiada iniciada.");
+  };
+
+  const enterWithoutGuide = () => {
+    setShowDemoIntro(false);
+    setGuideStarted(false);
+    setShowGuideOverlay(false);
+    setShowQuickActions(false);
+    notify("La guia y los atajos quedan disponibles por separado en los botones flotantes.");
+  };
+
+  const openGuide = () => {
+    const matchingStep = demoFlowSteps.find((step) => step.tab === activeTab);
+    setDemoStepId(matchingStep?.id ?? demoStepId);
+    setGuideStarted(true);
+    setShowGuideOverlay(true);
+
+    if (!guideStarted) {
+      notify("Guia activada. Puedes cerrarla y retomarla cuando quieras.");
+    }
+  };
+
+  const handleGuideStepSelect = (stepId: string) => {
+    setGuideStarted(true);
+    setShowGuideOverlay(true);
+    jumpToDemoStep(stepId);
+  };
+
   const continueDemo = () => {
     if (demoStepId === "dashboard") {
       openLead(selectedLead.id);
@@ -290,14 +330,9 @@ export default function App() {
     }
     setActiveTab("home");
     setDemoStepId("dashboard");
-    setShowDemoIntro(true);
-  };
-
-  const startDemo = () => {
-    setShowDemoIntro(false);
-    setActiveTab("home");
-    setDemoStepId("dashboard");
-    notify("Demo guiada iniciada.");
+    setGuideStarted(false);
+    setShowGuideOverlay(false);
+    notify("Guia reiniciada. Puedes abrirla otra vez desde el boton flotante.");
   };
 
   const currentTab = tabMeta[activeTab];
@@ -322,6 +357,9 @@ export default function App() {
     setAgendaItems(initialAgendaItems);
     setShowDemoIntro(true);
     setDemoStepId("dashboard");
+    setGuideStarted(false);
+    setShowGuideOverlay(false);
+    setShowQuickActions(false);
     setActiveTab("home");
   };
 
@@ -354,12 +392,6 @@ export default function App() {
           }
           brokerName={liveProfile.name}
         />
-        <DemoProgressCard
-          steps={demoFlowSteps}
-          activeStepId={demoStepId}
-          onSelectStep={jumpToDemoStep}
-          onContinue={continueDemo}
-        />
 
         <View style={styles.screenFrame}>
           {activeTab === "home" && (
@@ -372,6 +404,12 @@ export default function App() {
               selectedLead={selectedLead}
               onLeadPress={openLead}
               onAskAI={askAIForLead}
+              onUseScript={useScriptForLead}
+              onCreateTask={createTaskForLead}
+              onOpenAgenda={() => {
+                setActiveTab("agenda");
+                setDemoStepId("agenda");
+              }}
             />
           )}
           {activeTab === "leads" && (
@@ -412,22 +450,35 @@ export default function App() {
           )}
         </View>
 
-        <FloatingActionDock
-          actions={quickActions.slice(1)}
-          onPrimaryPress={() => setShowActionSheet(true)}
-          onActionPress={handleQuickAction}
+        <DemoGuideOverlay
+          visible={showGuideOverlay && sessionMode === "demo"}
+          guideStarted={guideStarted}
+          steps={demoFlowSteps}
+          activeStepId={demoStepId}
+          onClose={() => setShowGuideOverlay(false)}
+          onSelectStep={handleGuideStepSelect}
+          onContinue={continueDemo}
+        />
+        <FloatingUtilityRail
+          showGuide={sessionMode === "demo"}
+          guideStarted={guideStarted}
+          guideVisible={showGuideOverlay}
+          steps={demoFlowSteps}
+          activeStepId={demoStepId}
+          onGuidePress={openGuide}
+          onShortcutsPress={() => setShowQuickActions(true)}
         />
         <BottomTabs activeTab={activeTab} onChange={handleTabChange} />
-        <QuickActionSheet
-          visible={showActionSheet}
+        <QuickActionsSheet
+          visible={showQuickActions}
           actions={quickActions}
-          onClose={() => setShowActionSheet(false)}
-          onSelect={handleQuickAction}
+          onClose={() => setShowQuickActions(false)}
+          onSelectAction={handleQuickAction}
         />
         <DemoIntroModal
           visible={showDemoIntro && sessionMode === "demo"}
           onStart={startDemo}
-          onSkip={() => setShowDemoIntro(false)}
+          onSkip={enterWithoutGuide}
         />
       </View>
     </SafeAreaView>

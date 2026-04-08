@@ -55,6 +55,33 @@ Verificacion rapida:
 npm run typecheck
 ```
 
+## Como generar APK Android
+
+Build descargable para pruebas internas:
+
+```bash
+cd apps/rovi-pocket
+npm run build:android:preview:no-wait
+```
+
+Para listar builds recientes y abrir el APK:
+
+```bash
+cd apps/rovi-pocket
+npm run build:list:android
+```
+
+Notas practicas:
+
+- el perfil `preview` genera `apk`, no `aab`,
+- `preview` ahora usa `autoIncrement` para evitar choques al reinstalar builds,
+- si tienes cambios locales sin commit y quieres subir exactamente ese estado, usa:
+
+```bash
+cd apps/rovi-pocket
+EAS_NO_VCS=1 eas build --platform android --profile preview --non-interactive --no-wait
+```
+
 ## Arquitectura UI actual
 
 - `App.tsx`: orquestacion del shell, tabs y lead seleccionado.
@@ -79,7 +106,7 @@ Guia de repo y submodulo:
 
 ## Estado funcional actual
 
-- `Dashboard`: briefing IA, KPIs, plan tactico, top leads y agenda del dia.
+- `Dashboard`: `Modo Momentum`, señales de cierre, radar vivo, ejecucion de un toque y agenda protegida.
 - `Leads`: busqueda, filtros, stream del pipeline y `Lead Insight Lab`.
 - `Agenda`: timeline diario y planner IA.
 - `IA`: copiloto conversacional con contexto del lead y acciones sugeridas.
@@ -90,9 +117,10 @@ Guia de repo y submodulo:
 Al abrir la app:
 
 1. inicia la `demo guiada`,
-2. usa la tarjeta de progreso para recorrer `Dashboard -> Leads -> IA -> Agenda -> Perfil`,
-3. prueba quick actions desde el dock inferior,
-4. valida toasts, bitacora y cambios locales de estado sobre leads.
+2. recorre `Dashboard -> Leads -> IA -> Agenda -> Perfil` desde la guia flotante,
+3. oculta o retoma la guia cuando quieras desde el rail lateral,
+4. prueba los atajos rapidos desde el popup dedicado,
+5. valida toasts, bitacora y cambios locales de estado sobre leads.
 
 Todo esto corre con estado local y datos demo, sin dependencia de backend.
 

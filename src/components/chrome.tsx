@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { layout, palette, radii, spacing } from "../theme";
-import { QuickAction, TabKey } from "../types";
+import { DemoStep, TabKey } from "../types";
 
 export function TopBar({
   eyebrow,
@@ -67,35 +67,54 @@ export function BottomTabs({
   );
 }
 
-export function FloatingActionDock({
-  onPrimaryPress,
-  onActionPress,
-  actions,
+export function FloatingUtilityRail({
+  showGuide,
+  guideStarted,
+  guideVisible,
+  steps,
+  activeStepId,
+  onGuidePress,
+  onShortcutsPress,
 }: {
-  onPrimaryPress: () => void;
-  onActionPress: (actionId: string) => void;
-  actions: QuickAction[];
+  showGuide: boolean;
+  guideStarted: boolean;
+  guideVisible: boolean;
+  steps: DemoStep[];
+  activeStepId: string;
+  onGuidePress: () => void;
+  onShortcutsPress: () => void;
 }) {
-  return (
-    <View pointerEvents="box-none" style={styles.dockWrap}>
-      <View style={styles.dock}>
-        <Pressable style={styles.primaryCta} onPress={onPrimaryPress}>
-          <Text style={styles.primaryCtaLabel}>+ Nuevo lead</Text>
-          <Text style={styles.primaryCtaHint}>Captura rapida</Text>
-        </Pressable>
+  const activeIndex = Math.max(
+    0,
+    steps.findIndex((step) => step.id === activeStepId),
+  );
 
-        <View style={styles.quickActions}>
-          {actions.map((action) => (
-            <Pressable
-              key={action.id}
-              style={styles.quickAction}
-              onPress={() => onActionPress(action.id)}
-            >
-              <Text style={styles.quickActionLabel}>{action.label}</Text>
-            </Pressable>
-          ))}
+  return (
+    <View pointerEvents="box-none" style={styles.utilityRail}>
+      {showGuide ? (
+        <Pressable style={styles.utilityButton} onPress={onGuidePress}>
+          <View style={[styles.utilityIconWrap, styles.guideIconWrap]}>
+            <Text style={styles.guideIcon}>?</Text>
+            {!guideVisible ? <View style={styles.utilityBadge} /> : null}
+          </View>
+          <View style={styles.utilityCopy}>
+            <Text style={styles.utilityTitle}>Guia</Text>
+            <Text style={styles.utilityBody}>
+              {guideStarted ? `Paso ${activeIndex + 1}/${steps.length}` : "Disponible"}
+            </Text>
+          </View>
+        </Pressable>
+      ) : null}
+
+      <Pressable style={styles.utilityButton} onPress={onShortcutsPress}>
+        <View style={styles.utilityIconWrap}>
+          <Text style={styles.utilityIcon}>+</Text>
         </View>
-      </View>
+        <View style={styles.utilityCopy}>
+          <Text style={styles.utilityTitle}>Atajos</Text>
+          <Text style={styles.utilityBody}>Abrir popup</Text>
+        </View>
+      </Pressable>
     </View>
   );
 }
@@ -182,66 +201,74 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
     letterSpacing: 1,
   },
-  dockWrap: {
+  utilityRail: {
     position: "absolute",
-    left: 0,
-    right: 0,
-    bottom: layout.tabBarHeight - 10,
-    alignItems: "center",
-  },
-  dock: {
-    width: "92%",
-    borderRadius: 28,
-    backgroundColor: "rgba(17,20,23,0.94)",
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.06)",
-    padding: spacing.md,
-    gap: spacing.md,
-    shadowColor: palette.shadow,
-    shadowOpacity: 1,
-    shadowOffset: { width: 0, height: 14 },
-    shadowRadius: 28,
-    elevation: 10,
-  },
-  primaryCta: {
-    borderRadius: radii.lg,
-    backgroundColor: palette.primary,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.md,
-    minHeight: 58,
-    justifyContent: "center",
-  },
-  primaryCtaLabel: {
-    color: "#005d2c",
-    fontSize: 16,
-    fontWeight: "900",
-    letterSpacing: -0.3,
-  },
-  primaryCtaHint: {
-    color: "#005d2c",
-    fontSize: 11,
-    fontWeight: "700",
-    opacity: 0.8,
-    marginTop: 2,
-    textTransform: "uppercase",
-    letterSpacing: 1.1,
-  },
-  quickActions: {
-    flexDirection: "row",
+    right: spacing.xl,
+    bottom: layout.tabBarHeight + spacing.md,
     gap: spacing.sm,
   },
-  quickAction: {
-    flex: 1,
-    minHeight: 44,
-    borderRadius: radii.md,
-    backgroundColor: palette.surfaceStrong,
+  utilityButton: {
+    minHeight: 58,
+    borderRadius: radii.full,
+    backgroundColor: "rgba(17,20,23,0.96)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.06)",
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.sm,
+    shadowColor: palette.shadow,
+    shadowOpacity: 1,
+    shadowOffset: { width: 0, height: 12 },
+    shadowRadius: 24,
+    elevation: 10,
+  },
+  utilityIconWrap: {
+    width: 38,
+    height: 38,
+    borderRadius: radii.full,
+    backgroundColor: palette.primary,
     alignItems: "center",
     justifyContent: "center",
   },
-  quickActionLabel: {
+  guideIconWrap: {
+    backgroundColor: palette.tertiary,
+  },
+  utilityIcon: {
+    color: "#005d2c",
+    fontSize: 20,
+    fontWeight: "900",
+    lineHeight: 20,
+  },
+  guideIcon: {
+    color: "#04394c",
+    fontSize: 18,
+    fontWeight: "900",
+    lineHeight: 18,
+  },
+  utilityBadge: {
+    position: "absolute",
+    top: 4,
+    right: 4,
+    width: 8,
+    height: 8,
+    borderRadius: radii.full,
+    backgroundColor: palette.secondary,
+  },
+  utilityCopy: {
+    gap: 2,
+  },
+  utilityTitle: {
     color: palette.text,
-    fontSize: 12,
+    fontSize: 14,
+    fontWeight: "800",
+  },
+  utilityBody: {
+    color: palette.textMuted,
+    fontSize: 11,
     fontWeight: "700",
+    letterSpacing: 0.3,
   },
   bottomWrap: {
     position: "absolute",
