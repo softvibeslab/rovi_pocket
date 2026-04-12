@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useMemo, useState } from "react";
-import { SafeAreaView, StyleSheet, View } from "react-native";
+import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from "react-native";
 
 import { BottomTabs, FloatingUtilityRail, TopBar } from "./src/components/chrome";
 import { DemoGuideOverlay, DemoIntroModal, DemoToast, QuickActionsSheet } from "./src/components/demo";
@@ -15,16 +15,36 @@ import {
   planCards,
   quickActions,
 } from "./src/data/mock";
-import { checkBackendHealth, fetchDashboardStats, fetchLeads, fetchRecentActivity, fetchLeadDetail, fetchCurrentUser, generateLeadScript, loginWithBackend, PocketApiError } from "./src/lib/pocketApi";
-import { mapApiLeadToPocketLead, mapApiUserToBrokerProfile, mapRecentActivityToFeed } from "./src/lib/mappers";
+import {
+  analyzeLeadWithApi,
+  checkBackendHealth,
+  createCalendarEvent,
+  fetchCurrentUser,
+  fetchDashboardStats,
+  fetchLeadDetail,
+  fetchLeads,
+  fetchRecentActivity,
+  fetchTodayEvents,
+  generateLeadScript,
+  loginWithBackend,
+  PocketApiError,
+} from "./src/lib/pocketApi";
+import {
+  mapApiLeadToPocketLead,
+  mapApiUserToBrokerProfile,
+  mapCalendarEventsToAgendaItems,
+  mapRecentActivityToFeed,
+  mergeLeadWithAnalysis,
+} from "./src/lib/mappers";
+import { clearSessionToken, persistSessionToken, readSessionToken } from "./src/lib/sessionStorage";
 import { AuthScreen } from "./src/screens/AuthScreen";
 import { AgendaScreen } from "./src/screens/AgendaScreen";
 import { CopilotScreen } from "./src/screens/CopilotScreen";
 import { DashboardScreen } from "./src/screens/DashboardScreen";
 import { LeadsScreen } from "./src/screens/LeadsScreen";
 import { ProfileScreen } from "./src/screens/ProfileScreen";
-import { palette } from "./src/theme";
-import { ActivityItem, Lead, TabKey } from "./src/types";
+import { palette, spacing } from "./src/theme";
+import { ActivityItem, AgendaItem, Lead, TabKey } from "./src/types";
 
 const tabMeta: Record<
   TabKey,
@@ -57,7 +77,44 @@ const tabMeta: Record<
   },
 };
 
+function buildFollowUpWindow(base = new Date()) {
+  const start = new Date(base);
+  start.setSeconds(0, 0);
+
+  const nextQuarter = Math.ceil((start.getMinutes() + 5) / 15) * 15;
+  if (nextQuarter >= 60) {
+    start.setHours(start.getHours() + 1, 0, 0, 0);
+  } else {
+    start.setMinutes(nextQuarter);
+  }
+
+  const end = new Date(start);
+  end.setMinutes(end.getMinutes() + 20);
+
+  return { end, start };
+}
+
+function buildLocalFollowUpItem(lead: Lead): AgendaItem {
+  const { end, start } = buildFollowUpWindow();
+
+  return {
+    id: `ag-local-${Date.now()}`,
+    title: `Follow-up con ${lead.name}`,
+    time: new Intl.DateTimeFormat("es-MX", {
+      hour: "2-digit",
+      minute: "2-digit",
+    }).format(start),
+    duration: `${Math.round((end.getTime() - start.getTime()) / 60000)} min`,
+    type: "Follow-up",
+    leadId: lead.id,
+    leadName: lead.name,
+    note: lead.nextAction,
+    status: "next",
+  };
+}
+
 export default function App() {
+  const [bootstrapping, setBootstrapping] = useState(true);
   const [sessionMode, setSessionMode] = useState<"demo" | "live" | null>(null);
   const [authLoading, setAuthLoading] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
@@ -76,7 +133,7 @@ export default function App() {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const selectedLead = useMemo(() => {
-    return leads.find((lead) => lead.id === selectedLeadId) ?? leads[0];
+    return leads.find((lead) => lead.id === selectedLeadId) ?? leads[0] ?? initialLeads[0];
   }, [leads, selectedLeadId]);
 
   const copilotThread = useMemo(() => buildCopilotThread(selectedLead), [selectedLead]);
@@ -86,6 +143,45 @@ export default function App() {
     const timer = setTimeout(() => setToastMessage(null), 2200);
     return () => clearTimeout(timer);
   }, [toastMessage]);
+
+  useEffect(() => {
+    let mounted = true;
+
+    const restoreStoredSession = async () => {
+      try {
+        const storedToken = await readSessionToken();
+        if (!mounted || !storedToken) {
+          if (mounted) {
+            setBootstrapping(false);
+          }
+          return;
+        }
+
+        const restored = await hydrateLiveSession(storedToken, {
+          isRestore: true,
+          silent: true,
+        });
+
+        if (!restored) {
+          await clearSessionToken();
+        }
+      } catch {
+        if (mounted) {
+          setAuthError("No pude restaurar tu sesion anterior. Puedes entrar otra vez o usar demo.");
+        }
+      } finally {
+        if (mounted) {
+          setBootstrapping(false);
+        }
+      }
+    };
+
+    void restoreStoredSession();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const pushActivity = (title: string, detail: string, tone: ActivityItem["tone"] = "neutral") => {
     const newItem: ActivityItem = {
@@ -103,11 +199,13 @@ export default function App() {
   };
 
   const enterDemoMode = () => {
+    void clearSessionToken();
     setSessionMode("demo");
     setAuthError(null);
     setLiveToken(null);
     setLiveProfile(brokerProfile);
     setLeads(initialLeads);
+    setSelectedLeadId(initialLeads[0]?.id ?? "");
     setAgendaItems(initialAgendaItems);
     setActivityFeed(initialActivityFeed);
     setShowDemoIntro(true);
@@ -122,6 +220,15 @@ export default function App() {
     setLeads((current) => current.map((lead) => (lead.id === leadId ? updater(lead) : lead)));
   };
 
+  const addAgendaItemLocally = (item: AgendaItem) => {
+    setAgendaItems((current) => [
+      item,
+      ...current.map((existing) =>
+        existing.status === "next" ? { ...existing, status: "today" as const } : existing,
+      ),
+    ]);
+  };
+
   const refreshLiveLeadDetail = async (token: string, leadId: string) => {
     try {
       const detail = await fetchLeadDetail(token, leadId);
@@ -134,19 +241,26 @@ export default function App() {
     }
   };
 
-  const loginWithRealBackend = async (email: string, password: string) => {
-    setAuthLoading(true);
-    setAuthError(null);
-
+  const refreshLiveAgenda = async (token: string) => {
     try {
-      await checkBackendHealth();
-      const auth = await loginWithBackend(email, password);
-      const token = auth.access_token;
-      const [user, stats, liveLeads, recentActivity] = await Promise.all([
+      const todayEvents = await fetchTodayEvents(token);
+      setAgendaItems(mapCalendarEventsToAgendaItems(todayEvents));
+    } catch {
+      // Keep the current agenda visible if refresh fails.
+    }
+  };
+
+  const hydrateLiveSession = async (
+    token: string,
+    options: { isRestore?: boolean; silent?: boolean } = {},
+  ) => {
+    try {
+      const [user, stats, liveLeads, recentActivity, todayEvents] = await Promise.all([
         fetchCurrentUser(token),
         fetchDashboardStats(token).catch(() => null),
         fetchLeads(token),
-        fetchRecentActivity(token).catch(() => []),
+        fetchRecentActivity(token).catch(() => null),
+        fetchTodayEvents(token).catch(() => null),
       ]);
 
       const mappedLeads = liveLeads.length > 0 ? liveLeads.map(mapApiLeadToPocketLead) : initialLeads;
@@ -154,14 +268,69 @@ export default function App() {
       setSessionMode("live");
       setLiveProfile(mapApiUserToBrokerProfile(user, stats ?? undefined));
       setLeads(mappedLeads);
-      setSelectedLeadId(mappedLeads[0]?.id ?? initialLeads[0].id);
+      setSelectedLeadId((current) =>
+        mappedLeads.some((lead) => lead.id === current)
+          ? current
+          : (mappedLeads[0]?.id ?? initialLeads[0].id),
+      );
+      setAgendaItems(
+        todayEvents ? mapCalendarEventsToAgendaItems(todayEvents) : initialAgendaItems,
+      );
       setActivityFeed(
-        recentActivity.length > 0 ? mapRecentActivityToFeed(recentActivity) : initialActivityFeed,
+        recentActivity ? mapRecentActivityToFeed(recentActivity) : initialActivityFeed,
       );
       setActiveTab("home");
       setShowDemoIntro(false);
       setDemoStepId("dashboard");
-      notify("Sesion conectada al backend real.");
+      setGuideStarted(false);
+      setShowGuideOverlay(false);
+      setShowQuickActions(false);
+      setAuthError(null);
+
+      if (!options.silent) {
+        notify(
+          options.isRestore
+            ? "Sesion restaurada y Pocket quedo conectado."
+            : "Sesion conectada al backend real.",
+        );
+      }
+
+      return true;
+    } catch (error) {
+      setSessionMode(null);
+      setLiveToken(null);
+      setLiveProfile(brokerProfile);
+      setLeads(initialLeads);
+      setSelectedLeadId(initialLeads[0]?.id ?? "");
+      setAgendaItems(initialAgendaItems);
+      setActivityFeed(initialActivityFeed);
+
+      if (error instanceof PocketApiError && error.status === 401) {
+        setAuthError("Tu sesion expiro. Inicia de nuevo para reconectar Pocket.");
+      } else if (error instanceof PocketApiError) {
+        setAuthError(error.message);
+      } else {
+        setAuthError(
+          "No fue posible cargar tu sesion real. Puedes volver a intentar o entrar en modo demo.",
+        );
+      }
+
+      return false;
+    }
+  };
+
+  const loginWithRealBackend = async (email: string, password: string) => {
+    setAuthLoading(true);
+    setAuthError(null);
+
+    try {
+      await checkBackendHealth();
+      const auth = await loginWithBackend(email, password);
+      const hydrated = await hydrateLiveSession(auth.access_token);
+
+      if (hydrated) {
+        await persistSessionToken(auth.access_token);
+      }
     } catch (error) {
       if (error instanceof PocketApiError) {
         setAuthError(error.message);
@@ -185,12 +354,28 @@ export default function App() {
   };
 
   const askAIForLead = (leadId: string) => {
+    const lead = leads.find((item) => item.id === leadId);
     setSelectedLeadId(leadId);
     setActiveTab("copilot");
     setDemoStepId("copilot");
     notify("Rovi AI ya esta cargando contexto del lead.");
     if (liveToken && sessionMode === "live") {
-      void refreshLiveLeadDetail(liveToken, leadId);
+      void (async () => {
+        try {
+          const analysis = await analyzeLeadWithApi(liveToken, leadId);
+          patchLead(leadId, (current) => mergeLeadWithAnalysis(current, analysis));
+          if (lead) {
+            pushActivity(
+              "Contexto IA actualizado",
+              `Rovi AI analizo a ${lead.name} con datos reales del backend.`,
+              "secondary",
+            );
+          }
+          notify("Analisis IA actualizado desde el backend.");
+        } catch {
+          await refreshLiveLeadDetail(liveToken, leadId);
+        }
+      })();
     }
   };
 
@@ -199,6 +384,50 @@ export default function App() {
     if (!lead) return;
     setActiveTab("agenda");
     setDemoStepId("agenda");
+
+    const localAgendaItem = buildLocalFollowUpItem(lead);
+
+    if (liveToken && sessionMode === "live") {
+      void (async () => {
+        try {
+          const { end, start } = buildFollowUpWindow();
+          const created = await createCalendarEvent(liveToken, {
+            title: `Follow-up con ${lead.name}`,
+            description: lead.nextAction,
+            event_type: "seguimiento",
+            lead_id: lead.id,
+            start_time: start.toISOString(),
+            end_time: end.toISOString(),
+            reminder_minutes: 30,
+          });
+
+          await refreshLiveAgenda(liveToken);
+          pushActivity(
+            "Follow-up creado",
+            created.synced_to_google
+              ? `${lead.name} ya quedo en agenda real y sincronizado con Google.`
+              : `${lead.name} ya quedo en agenda real de Pocket.`,
+            created.synced_to_google ? "primary" : "secondary",
+          );
+          notify(
+            created.synced_to_google
+              ? `Follow-up creado y sincronizado para ${lead.name}.`
+              : `Follow-up real creado para ${lead.name}.`,
+          );
+        } catch {
+          addAgendaItemLocally(localAgendaItem);
+          pushActivity(
+            "Follow-up local",
+            `No se pudo sincronizar el backend para ${lead.name}; deje el bloque en la app.`,
+            "secondary",
+          );
+          notify("No pude crear el evento real; deje un bloque local en agenda.");
+        }
+      })();
+      return;
+    }
+
+    addAgendaItemLocally(localAgendaItem);
     pushActivity("Tarea creada desde IA", `Follow-up agendado para ${lead.name}.`, "secondary");
     notify(`Tarea demo creada para ${lead.name}.`);
   };
@@ -261,9 +490,7 @@ export default function App() {
       return;
     }
     if (actionId === "event") {
-      setActiveTab("agenda");
-      pushActivity("Evento demo", "Se creo un bloque tactico nuevo en agenda.", "secondary");
-      notify("Evento demo creado en agenda.");
+      createTaskForLead(selectedLead.id);
     }
   };
 
@@ -346,6 +573,7 @@ export default function App() {
   };
 
   const resetSession = () => {
+    void clearSessionToken();
     setSessionMode(null);
     setAuthError(null);
     setAuthLoading(false);
@@ -362,6 +590,21 @@ export default function App() {
     setShowQuickActions(false);
     setActiveTab("home");
   };
+
+  if (bootstrapping) {
+    return (
+      <SafeAreaView style={styles.safeArea}>
+        <StatusBar style="light" />
+        <View style={styles.loadingShell}>
+          <ActivityIndicator color={palette.primary} size="large" />
+          <Text style={styles.loadingTitle}>Reconectando Rovi Pocket</Text>
+          <Text style={styles.loadingBody}>
+            Estamos restaurando la sesion y cargando lo mas importante del broker.
+          </Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   if (!sessionMode) {
     return (
@@ -496,5 +739,24 @@ const styles = StyleSheet.create({
   },
   screenFrame: {
     flex: 1,
+  },
+  loadingShell: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: spacing.xl,
+    gap: spacing.md,
+  },
+  loadingTitle: {
+    color: palette.text,
+    fontSize: 20,
+    fontWeight: "900",
+    letterSpacing: -0.4,
+  },
+  loadingBody: {
+    color: palette.textMuted,
+    fontSize: 14,
+    lineHeight: 21,
+    textAlign: "center",
   },
 });

@@ -67,6 +67,34 @@ export type ApiRecentActivity = {
   points_earned?: number;
 };
 
+export type ApiCalendarEvent = {
+  id: string;
+  title: string;
+  description?: string | null;
+  event_type?: string;
+  start_time: string;
+  end_time?: string | null;
+  lead_id?: string | null;
+  completed?: boolean;
+  reminder_minutes?: number;
+  color?: string | null;
+  lead?: {
+    name?: string;
+    phone?: string | null;
+  } | null;
+};
+
+export type ApiCalendarEventCreate = {
+  title: string;
+  description?: string;
+  event_type?: string;
+  start_time: string;
+  end_time?: string;
+  lead_id?: string;
+  reminder_minutes?: number;
+  color?: string;
+};
+
 class PocketApiError extends Error {
   status?: number;
 
@@ -143,6 +171,18 @@ export async function fetchLeads(token: string, search?: string) {
 
 export async function fetchLeadDetail(token: string, leadId: string) {
   return request<ApiLead>(`/leads/${leadId}`, { token });
+}
+
+export async function fetchTodayEvents(token: string) {
+  return request<ApiCalendarEvent[]>("/calendar/today", { token });
+}
+
+export async function createCalendarEvent(token: string, event: ApiCalendarEventCreate) {
+  return request<{ id: string; message: string; synced_to_google: boolean }>("/calendar/events", {
+    method: "POST",
+    token,
+    body: event,
+  });
 }
 
 export async function analyzeLeadWithApi(token: string, leadId: string) {

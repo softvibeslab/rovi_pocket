@@ -207,9 +207,19 @@ export function DashboardScreen({
           title="Bloques que sostienen el cierre"
         />
         <View style={styles.listStack}>
-          {agendaItems.slice(0, 3).map((item) => (
-            <AgendaCard key={item.id} item={item} onPress={() => onLeadPress(item.leadId)} />
-          ))}
+          {agendaItems.length > 0 ? (
+            agendaItems.slice(0, 3).map((item) => (
+              <AgendaCard
+                key={item.id}
+                item={item}
+                onPress={item.leadId ? () => onLeadPress(item.leadId!) : undefined}
+              />
+            ))
+          ) : (
+            <Text style={styles.emptyState}>
+              Aun no hay bloques reales para hoy. Crea un follow-up y aparecera aqui.
+            </Text>
+          )}
         </View>
       </SectionCard>
 
@@ -219,9 +229,13 @@ export function DashboardScreen({
           title="Lo que confirma que el broker se movio"
         />
         <View style={styles.listStack}>
-          {activityFeed.map((item) => (
-            <ActivityRow key={item.id} item={item} />
-          ))}
+          {activityFeed.length > 0 ? (
+            activityFeed.map((item) => <ActivityRow key={item.id} item={item} />)
+          ) : (
+            <Text style={styles.emptyState}>
+              Cuando empieces a operar desde Pocket, la bitacora vivira aqui.
+            </Text>
+          )}
         </View>
       </SectionCard>
     </ScreenScroll>
@@ -430,5 +444,10 @@ const styles = StyleSheet.create({
   },
   listStack: {
     gap: spacing.md,
+  },
+  emptyState: {
+    color: palette.textMuted,
+    fontSize: 13,
+    lineHeight: 18,
   },
 });

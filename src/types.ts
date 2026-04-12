@@ -42,7 +42,7 @@ export type AgendaItem = {
   time: string;
   duration: string;
   type: string;
-  leadId: string;
+  leadId?: string;
   leadName: string;
   note: string;
   status: "next" | "today" | "done";

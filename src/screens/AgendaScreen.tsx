@@ -15,30 +15,56 @@ export function AgendaScreen({
   selectedLead: Lead;
   onLeadPress: (leadId: string) => void;
 }) {
+  const todayLabel = new Intl.DateTimeFormat("es-MX", {
+    day: "numeric",
+    month: "long",
+    weekday: "long",
+  }).format(new Date());
+  const activeBlocks = agendaItems.filter((item) => item.status !== "done").length;
+  const visitsCount = agendaItems.filter((item) => item.type === "Visit").length;
+  const completedCount = agendaItems.filter((item) => item.status === "done").length;
+
   return (
     <ScreenScroll>
       <SectionCard style={styles.heroCard}>
         <SectionHeading
-          eyebrow="Domingo, 5 abril"
-          title="Agenda de ejecucion"
-          body="Tu planner IA ya protegio espacio para cierres, reactivacion y follow-up de alto valor."
+          eyebrow={todayLabel}
+          title={agendaItems.length > 0 ? "Agenda de ejecucion" : "Agenda lista para arrancar"}
+          body={
+            agendaItems.length > 0
+              ? "Pocket ya esta leyendo tus bloques reales del dia para ayudarte a cerrar sin perder ritmo."
+              : "Todavia no hay eventos para hoy. Crea un follow-up desde leads o IA y aparecera aqui."
+          }
         />
         <View style={styles.heroFoot}>
-          <Text style={styles.heroStat}>4 bloques activos</Text>
-          <Text style={styles.heroStat}>2 citas de campo</Text>
-          <Text style={styles.heroStat}>1 cierre empujado por IA</Text>
+          <Text style={styles.heroStat}>{activeBlocks} bloques activos</Text>
+          <Text style={styles.heroStat}>{visitsCount} citas de campo</Text>
+          <Text style={styles.heroStat}>{completedCount} cerrados hoy</Text>
         </View>
       </SectionCard>
 
       <SectionCard>
         <SectionHeading
           eyebrow="Timeline del dia"
-          title="Natural thumb zone para operar rapido"
+          title={agendaItems.length > 0 ? "Natural thumb zone para operar rapido" : "Tu timeline esta vacio"}
         />
         <View style={styles.stack}>
-          {agendaItems.map((item) => (
-            <AgendaCard key={item.id} item={item} onPress={() => onLeadPress(item.leadId)} />
-          ))}
+          {agendaItems.length > 0 ? (
+            agendaItems.map((item) => (
+              <AgendaCard
+                key={item.id}
+                item={item}
+                onPress={item.leadId ? () => onLeadPress(item.leadId!) : undefined}
+              />
+            ))
+          ) : (
+            <View style={styles.emptyCard}>
+              <Text style={styles.emptyTitle}>Sin eventos todavia</Text>
+              <Text style={styles.emptyBody}>
+                Los follow-ups creados desde Pocket entraran aqui con hora, contexto y lead asociado.
+              </Text>
+            </View>
+          )}
         </View>
       </SectionCard>
 
@@ -88,6 +114,22 @@ const styles = StyleSheet.create({
   },
   stack: {
     gap: spacing.md,
+  },
+  emptyCard: {
+    borderRadius: 18,
+    backgroundColor: palette.surface,
+    padding: spacing.lg,
+    gap: spacing.xs,
+  },
+  emptyTitle: {
+    color: palette.text,
+    fontSize: 15,
+    fontWeight: "800",
+  },
+  emptyBody: {
+    color: palette.textMuted,
+    fontSize: 13,
+    lineHeight: 18,
   },
   ruleList: {
     gap: spacing.sm,
