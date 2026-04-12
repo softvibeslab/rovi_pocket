@@ -11,7 +11,11 @@
     "typecheck": "tsc --noEmit",
     "build:android:preview": "eas build --platform android --profile preview --non-interactive",
     "build:android:preview:no-wait": "eas build --platform android --profile preview --non-interactive --no-wait",
-    "build:list:android": "eas build:list --platform android --limit 10"
+    "build:android:production": "eas build --platform android --profile production --non-interactive",
+    "build:android:production:no-wait": "eas build --platform android --profile production --non-interactive --no-wait",
+    "build:web": "expo export:web",
+    "build:list": "eas build:list --limit 10",
+    "build:production": "./scripts/build-production.sh"
   },
   "dependencies": {
     "expo": "~54.0.33",
